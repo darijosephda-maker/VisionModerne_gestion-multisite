@@ -34,7 +34,7 @@
                             <p class="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Adresse</p>
                             <p class="mt-1 text-base font-semibold text-slate-900 dark:text-white">Secteur 4, Gaoua</p>
                             <p class="text-base font-semibold text-slate-900 dark:text-white">Province du Poni, Burkina Faso</p>
-                            <a href="https://maps.app.goo.gl/eqwrd8dZ2VV8ex3x5?g_st=aw" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex items-center rounded-lg bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-cyan-500">
+                            <a href="https://maps.app.goo.gl/2t1cNKu4bp3P8nfM9" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex items-center rounded-lg bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-cyan-500">
                                 📍 Voir notre position dans Google Maps
                             </a>
                         </div>
