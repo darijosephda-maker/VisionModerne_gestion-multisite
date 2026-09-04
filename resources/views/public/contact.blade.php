@@ -34,6 +34,9 @@
                             <p class="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Adresse</p>
                             <p class="mt-1 text-base font-semibold text-slate-900 dark:text-white">Secteur 4, Gaoua</p>
                             <p class="text-base font-semibold text-slate-900 dark:text-white">Province du Poni, Burkina Faso</p>
+                            <a href="https://maps.app.goo.gl/eqwrd8dZ2VV8ex3x5?g_st=aw" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex items-center rounded-lg bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-cyan-500">
+                                📍 Voir notre position dans Google Maps
+                            </a>
                         </div>
                     </div>
 
@@ -61,7 +64,7 @@
                             📞 Appeler maintenant
                         </a>
 
-                        <a href="https://wa.me/22673304345" target="_blank" rel="noopener noreferrer" class="inline-flex w-full items-center justify-center rounded-xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400">
+                        <a href="https://wa.me/22606060646" target="_blank" rel="noopener noreferrer" class="inline-flex w-full items-center justify-center rounded-xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400">
                             💬 WhatsApp
                         </a>
 
