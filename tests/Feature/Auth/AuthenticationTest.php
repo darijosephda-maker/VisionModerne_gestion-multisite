@@ -85,16 +85,15 @@ test('required field error is displayed in french when form is submitted empty',
     ]);
 });
 
-test('navigation menu can be rendered', function () {
-    $user = User::factory()->create();
+test('cashiers are redirected from the dashboard to the cash register', function () {
+    $user = User::factory()->create(['role' => 'caissiere']);
 
     $this->actingAs($user);
 
     $response = $this->get('/dashboard');
 
     $response
-        ->assertOk()
-        ->assertSeeVolt('layout.navigation');
+        ->assertRedirect(route('caisse.index', absolute: false));
 });
 
 test('database seed creates the default admin user', function () {

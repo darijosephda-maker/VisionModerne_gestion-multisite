@@ -336,8 +336,95 @@
             .total-section,
             .mentions {
                 margin: 0 !important;
-                padding-left: 15mm !important;
-                padding-right: 15mm !important;
+                padding-left: 8mm !important;
+                padding-right: 8mm !important;
+            }
+
+            .entete {
+                min-height: 78px !important;
+                padding-top: 6px !important;
+                padding-bottom: 6px !important;
+            }
+
+            .entete-logo img {
+                max-height: 68px !important;
+            }
+
+            .entete-titre h1 {
+                font-size: 28px !important;
+            }
+
+            .info-facture {
+                gap: 8px !important;
+                padding-top: 6px !important;
+                padding-bottom: 6px !important;
+            }
+
+            .info-bloc {
+                line-height: 1.25 !important;
+            }
+
+            .info-bloc h3 {
+                margin-bottom: 3px !important;
+            }
+
+            .info-bloc p {
+                margin: 1px 0 !important;
+                line-height: 1.25 !important;
+            }
+
+            .client-info {
+                display: none !important;
+            }
+
+            .table-container {
+                padding-top: 7px !important;
+                padding-bottom: 7px !important;
+            }
+
+            th {
+                padding-top: 5px !important;
+                padding-bottom: 5px !important;
+            }
+
+            td {
+                padding-top: 4px !important;
+                padding-bottom: 4px !important;
+            }
+
+            .total-section {
+                padding-top: 7px !important;
+                padding-bottom: 7px !important;
+            }
+
+            .total-box {
+                padding-top: 8px !important;
+                padding-bottom: 8px !important;
+            }
+
+            .total-ligne {
+                margin-bottom: 4px !important;
+            }
+
+            .total-final {
+                padding-top: 5px !important;
+                margin-top: 5px !important;
+            }
+
+            .mentions {
+                padding-top: 6px !important;
+                padding-bottom: 6px !important;
+                line-height: 1.35 !important;
+            }
+
+            .entete,
+            .info-facture,
+            .table-container,
+            .total-section,
+            .mentions,
+            .pied-page {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
             }
 
             table,

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{
     darkMode: false,
+    sidebarOpen: false,
     init() {
         try {
             const enabled = localStorage.getItem('darkMode') === 'true';
@@ -37,8 +38,12 @@
     <body class="font-sans antialiased bg-slate-100 text-slate-800 dark:bg-slate-950 dark:text-slate-100">
         <div class="min-h-screen bg-slate-100 dark:bg-slate-950">
 
-            {{-- SIDEBAR FIXE --}}
-            <aside class="fixed inset-y-0 left-0 w-64 bg-slate-200/95 dark:bg-slate-900/95 border-r border-slate-300 dark:border-slate-700 flex flex-col z-30 shadow-sm">
+              {{-- SIDEBAR FIXE --}}
+              <div x-show="sidebarOpen" x-transition.opacity @click="sidebarOpen = false"
+                  class="fixed inset-0 z-40 bg-slate-900/50 lg:hidden" x-cloak></div>
+
+              <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
+                    class="fixed inset-y-0 left-0 z-50 flex w-64 -translate-x-full flex-col border-r border-slate-300 bg-slate-200/95 shadow-sm transition-transform duration-200 ease-in-out dark:border-slate-700 dark:bg-slate-900/95 lg:translate-x-0">
                 <div class="h-20 flex items-center gap-3 px-4 border-b border-slate-300 dark:border-slate-700 shrink-0 bg-slate-200 dark:bg-slate-900">
                     <img src="{{ asset('images/Logo.jpeg') }}" alt="Vision Moderne Construction" class="h-14 w-auto rounded-lg object-contain shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
                     <div class="leading-[1.1]">
@@ -48,13 +53,17 @@
                             <span class="ml-1 text-slate-600 dark:text-slate-300">SARL</span>
                         </div>
                     </div>
+                    <button type="button" @click="sidebarOpen = false" aria-label="Fermer le menu"
+                            class="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-md text-xl text-slate-600 hover:bg-slate-300 dark:text-slate-300 dark:hover:bg-slate-800 lg:hidden">
+                        <span aria-hidden="true">×</span>
+                    </button>
                 </div>
 
                 <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto bg-slate-200/90 dark:bg-slate-900/90">
                     <p class="px-3 pb-1 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Modules de vente</p>
 
                     @foreach (['secretariat' => ['🗂️', 'Secrétariat'], 'librairie' => ['📚', 'Librairie'], 'boissons' => ['🥤', 'Boissons'], 'services' => ['🖨️', 'Services'], 'unites_wifi' => ['📶', 'Unités & WiFi']] as $key => [$icone, $label])
-                        <a href="{{ route('caisse.index', ['module' => $key]) }}"
+                        <a href="{{ route('caisse.index', ['module' => $key]) }}" @click="sidebarOpen = false"
                            class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium
                            {{ request()->routeIs('caisse.index') && request()->get('module', 'librairie') === $key ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300' : 'text-slate-700 hover:bg-slate-300 dark:text-slate-200 dark:hover:bg-slate-800' }}">
                             <span>{{ $icone }}</span> {{ $label }}
@@ -63,7 +72,7 @@
 
                     <p class="px-3 pt-4 pb-1 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Suivi</p>
 
-                    <a href="{{ route('caisse.mes-ventes') }}"
+                    <a href="{{ route('caisse.mes-ventes') }}" @click="sidebarOpen = false"
                        class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium
                        {{ request()->routeIs('caisse.mes-ventes') ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300' : 'text-slate-700 hover:bg-slate-300 dark:text-slate-200 dark:hover:bg-slate-800' }}">
                         <span>🧾</span> Mes ventes du jour
@@ -72,7 +81,7 @@
                     @if (auth()->user()->isAdmin())
                         <p class="px-3 pt-4 pb-1 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Administration</p>
 
-                        <a href="{{ route('admin.dashboard') }}"
+                        <a href="{{ route('admin.dashboard') }}" @click="sidebarOpen = false"
                            class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-indigo-700 bg-indigo-50 hover:bg-indigo-100 dark:text-indigo-300 dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50">
                             <span>⬅️</span> Retour à l'administration
                         </a>
@@ -103,12 +112,16 @@
             </aside>
 
             {{-- ZONE PRINCIPALE --}}
-            <div class="ml-64 flex flex-col min-h-screen">
+            <div class="flex min-h-screen flex-col lg:ml-64">
 
                 {{-- HEADER FIXE --}}
                 <header class="sticky top-0 z-40 bg-slate-200/95 dark:bg-slate-900/95 shadow-sm border-b border-slate-300 dark:border-slate-700 backdrop-blur-sm">
                     <div class="px-6 py-4 flex items-center justify-between gap-4">
-                        <div class="text-slate-800 dark:text-slate-100">
+                        <div class="flex min-w-0 items-center gap-3 text-slate-800 dark:text-slate-100">
+                            <button type="button" @click="sidebarOpen = true" aria-label="Ouvrir le menu"
+                                    class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-slate-300 bg-white text-xl text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 lg:hidden">
+                                <span aria-hidden="true">☰</span>
+                            </button>
                             {{ $header ?? '' }}
                         </div>
 
@@ -140,7 +153,7 @@
             </div>
 
             {{-- FOOTER FIXE --}}
-            <footer class="fixed bottom-0 left-64 right-0 z-40 pointer-events-none bg-slate-200/95 dark:bg-slate-900/95 border-t border-slate-300 dark:border-slate-700 backdrop-blur-sm">
+            <footer class="fixed bottom-0 left-0 right-0 z-40 pointer-events-none bg-slate-200/95 dark:bg-slate-900/95 border-t border-slate-300 dark:border-slate-700 backdrop-blur-sm lg:left-64">
                 <div class="pointer-events-auto px-6 py-3 flex flex-col items-center text-center gap-1.5">
                     <p class="text-xs font-semibold text-slate-800 dark:text-slate-100">VISION MODERNE CONSTRUCTION SARL</p>
 
