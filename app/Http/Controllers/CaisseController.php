@@ -296,6 +296,7 @@ class CaisseController extends Controller
             'type' => 'produit',
             'label' => 'Vente ' . ucfirst($v->module),
             'montant' => $v->montant_total,
+            'benefice' => null,
             'date' => $v->date_vente,
         ]);
 
@@ -307,6 +308,7 @@ class CaisseController extends Controller
             'type' => 'unite',
             'label' => 'Unités ' . ($t->stockUnite->operateur ?? '—'),
             'montant' => $t->montant_transige,
+            'benefice' => $t->benefice,
             'date' => $t->date_transaction,
         ]);
 
@@ -318,6 +320,7 @@ class CaisseController extends Controller
             'type' => 'wifi',
             'label' => 'WiFi ' . ($t->forfait->nom_forfait ?? '—'),
             'montant' => $t->montant_vente,
+            'benefice' => $t->benefice,
             'date' => $t->date_transaction,
         ]);
 

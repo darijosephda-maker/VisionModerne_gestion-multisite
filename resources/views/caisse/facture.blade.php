@@ -60,12 +60,16 @@
             display: flex;
             align-items: flex-end;
         }
+
+        .entete-logo {
+            width: 100%;
+        }
         
         .entete-logo img {
+            width: 100%;
             max-width: 100%;
-            max-height: 130px;
-            width: auto;
             height: auto;
+            max-height: none;
             display: block;
         }
         
@@ -347,7 +351,9 @@
             }
 
             .entete-logo img {
-                max-height: 68px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                max-height: none !important;
             }
 
             .entete-titre h1 {

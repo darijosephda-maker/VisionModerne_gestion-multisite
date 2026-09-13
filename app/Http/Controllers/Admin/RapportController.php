@@ -105,13 +105,27 @@ class RapportController extends Controller
             ->select('module', DB::raw('SUM(montant_total) as total'), DB::raw('COUNT(*) as nb'))
             ->get();
 
-        $beneficeUnites = TransactionUnite::whereDate('date_transaction', '>=', $dateDebut)
-            ->whereDate('date_transaction', '<=', $dateFin)
-            ->sum('benefice');
+        $transactionsUnitesQuery = TransactionUnite::whereDate('date_transaction', '>=', $dateDebut)
+            ->whereDate('date_transaction', '<=', $dateFin);
+        $transactionsWifiQuery = TransactionWifi::whereDate('date_transaction', '>=', $dateDebut)
+            ->whereDate('date_transaction', '<=', $dateFin);
 
-        $beneficeWifi = TransactionWifi::whereDate('date_transaction', '>=', $dateDebut)
-            ->whereDate('date_transaction', '<=', $dateFin)
-            ->sum('benefice');
+        if ($caissiereId) {
+            $transactionsUnitesQuery->where('caissiere_id', $caissiereId);
+            $transactionsWifiQuery->where('caissiere_id', $caissiereId);
+        }
+
+        if ($module !== '' && $module !== 'unites_wifi') {
+            $transactionsUnitesQuery->whereIn('id', []);
+            $transactionsWifiQuery->whereIn('id', []);
+        }
+
+        $caUnites = (clone $transactionsUnitesQuery)->sum('montant_transige');
+        $beneficeUnites = (clone $transactionsUnitesQuery)->sum('benefice');
+        $nombreUnites = (clone $transactionsUnitesQuery)->count();
+        $caWifi = (clone $transactionsWifiQuery)->sum('montant_vente');
+        $beneficeWifi = (clone $transactionsWifiQuery)->sum('benefice');
+        $nombreWifi = (clone $transactionsWifiQuery)->count();
 
         $caissieres = User::where('role', 'caissiere')->orderBy('name')->get();
 
@@ -120,8 +134,12 @@ class RapportController extends Controller
             'totalVentes',
             'nombreVentes',
             'repartitionParModule',
+            'caUnites',
             'beneficeUnites',
+            'nombreUnites',
+            'caWifi',
             'beneficeWifi',
+            'nombreWifi',
             'caissieres',
             'dateDebut',
             'dateFin',

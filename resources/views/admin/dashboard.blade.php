@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                 <div class="bg-white dark:bg-gray-800 shadow-sm rounded-2xl p-5 border-l-4 border-blue-500 ring-1 ring-slate-100 dark:ring-slate-700 transition hover:-translate-y-0.5 hover:shadow-md">
                     <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Secrétariat (jour)</p>
                     <p class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ number_format($caSecretariat, 0, ',', ' ') }} F</p>
@@ -64,15 +64,44 @@
                     <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Boissons (jour)</p>
                     <p class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ number_format($caBoissons, 0, ',', ' ') }} F</p>
                 </div>
-                <div class="bg-white dark:bg-gray-800 shadow-sm rounded-2xl p-5 border-l-4 border-purple-500 ring-1 ring-slate-100 dark:ring-slate-700 transition hover:-translate-y-0.5 hover:shadow-md">
-                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Bénéfice Unités/WiFi (jour)</p>
-                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ number_format($beneficeUnitesWifi, 0, ',', ' ') }} F</p>
-                </div>
                 <div class="bg-white dark:bg-gray-800 shadow-sm rounded-2xl p-5 border-l-4 border-slate-500 ring-1 ring-slate-100 dark:ring-slate-700 transition hover:-translate-y-0.5 hover:shadow-md">
-                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Total ce mois</p>
+                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Ventes produits (mois)</p>
                     <p class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ number_format($caMois, 0, ',', ' ') }} F</p>
                 </div>
             </div>
+
+            <section aria-labelledby="telecom-title" class="space-y-3">
+                <div class="flex items-end justify-between gap-3">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Activité télécom</p>
+                        <h3 id="telecom-title" class="text-lg font-bold text-gray-800 dark:text-gray-100">Unités et WiFi, aujourd'hui</h3>
+                    </div>
+                    <a href="{{ route('admin.rapports.index') }}" class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Voir le rapport détaillé</a>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-2xl p-5 border-l-4 border-cyan-500 ring-1 ring-slate-100 dark:ring-slate-700">
+                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Unités · CA</p>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ number_format($caUnitesJour, 0, ',', ' ') }} F</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">{{ $nombreUnitesJour }} transaction(s)</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-2xl p-5 border-l-4 border-blue-500 ring-1 ring-slate-100 dark:ring-slate-700">
+                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Unités · bénéfice</p>
+                        <p class="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">{{ number_format($beneficeUnitesJour, 0, ',', ' ') }} F</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Marge saisie à l'encaissement</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-2xl p-5 border-l-4 border-amber-500 ring-1 ring-slate-100 dark:ring-slate-700">
+                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">WiFi · CA</p>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ number_format($caWifiJour, 0, ',', ' ') }} F</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">{{ $nombreWifiJour }} transaction(s)</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-2xl p-5 border-l-4 border-emerald-500 ring-1 ring-slate-100 dark:ring-slate-700">
+                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">WiFi · bénéfice</p>
+                        <p class="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">{{ number_format($beneficeWifiJour, 0, ',', ' ') }} F</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Prix de vente moins coût</p>
+                    </div>
+                </div>
+            </section>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">

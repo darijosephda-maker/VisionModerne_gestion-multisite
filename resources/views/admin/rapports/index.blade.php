@@ -39,6 +39,17 @@
         border-color: rgba(148,163,184,0.12);
     }
 
+    .rapport-table {
+        table-layout: fixed;
+        overflow-wrap: anywhere;
+    }
+
+    .rapport-table th,
+    .rapport-table td {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
     @media print {
         body {
             background: white;
@@ -67,6 +78,44 @@
 
         table {
             font-size: 12px;
+            width: 100% !important;
+            min-width: 0 !important;
+            table-layout: fixed !important;
+            overflow-wrap: anywhere;
+        }
+
+        .rapport-table th,
+        .rapport-table td {
+            padding: 4px 5px !important;
+            font-size: 10px !important;
+            line-height: 1.25 !important;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .rapport-table th:nth-child(1),
+        .rapport-table td:nth-child(1) {
+            width: 17%;
+        }
+
+        .rapport-table th:nth-child(2),
+        .rapport-table td:nth-child(2) {
+            width: 15%;
+        }
+
+        .rapport-table th:nth-child(3),
+        .rapport-table td:nth-child(3) {
+            width: 18%;
+        }
+
+        .rapport-table th:nth-child(4),
+        .rapport-table td:nth-child(4) {
+            width: 35%;
+        }
+
+        .rapport-table th:nth-child(5),
+        .rapport-table td:nth-child(5) {
+            width: 15%;
         }
 
         .pagination {
@@ -115,6 +164,7 @@
                         <option value="librairie" {{ $module === 'librairie' ? 'selected' : '' }}>Librairie</option>
                         <option value="boissons" {{ $module === 'boissons' ? 'selected' : '' }}>Boissons</option>
                         <option value="services" {{ $module === 'services' ? 'selected' : '' }}>Services</option>
+                        <option value="unites_wifi" {{ $module === 'unites_wifi' ? 'selected' : '' }}>Unités &amp; WiFi</option>
                     </select>
                 </div>
                 <div>
@@ -148,10 +198,12 @@
                 <div class="stat-card p-5 border-l-4 border-purple-500">
                     <p class="text-[11px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Bénéfice Unités</p>
                     <p class="text-2xl font-bold text-slate-900 dark:text-white mt-3">{{ number_format($beneficeUnites, 0, ',', ' ') }} F</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">{{ $nombreUnites }} transaction(s) · CA {{ number_format($caUnites, 0, ',', ' ') }} F</p>
                 </div>
                 <div class="stat-card p-5 border-l-4 border-amber-500">
                     <p class="text-[11px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Bénéfice WiFi</p>
                     <p class="text-2xl font-bold text-slate-900 dark:text-white mt-3">{{ number_format($beneficeWifi, 0, ',', ' ') }} F</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">{{ $nombreWifi }} transaction(s) · CA {{ number_format($caWifi, 0, ',', ' ') }} F</p>
                 </div>
             </div>
 
@@ -171,7 +223,7 @@
 
             <div class="bg-white dark:bg-slate-800 shadow-[0_18px_40px_rgba(15,23,42,0.06)] rounded-2xl overflow-hidden ring-1 ring-slate-200 dark:ring-slate-700">
                 <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left min-w-[760px]">
+                    <table class="rapport-table w-full text-sm text-left min-w-[760px]">
                         <thead class="bg-slate-50 dark:bg-slate-700 text-[11px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-300">
                             <tr>
                                 <th class="px-6 py-3">Date</th>

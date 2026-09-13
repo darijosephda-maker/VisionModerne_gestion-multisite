@@ -47,6 +47,8 @@
                 $totalProduits = $ventes->where('type', 'produit')->sum('montant');
                 $totalUnites = $ventes->where('type', 'unite')->sum('montant');
                 $totalWifi = $ventes->where('type', 'wifi')->sum('montant');
+                $beneficeUnites = $ventes->where('type', 'unite')->sum('benefice');
+                $beneficeWifi = $ventes->where('type', 'wifi')->sum('benefice');
             @endphp
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -61,6 +63,19 @@
                 <div class="bg-white dark:bg-slate-800 shadow-sm rounded-lg p-5 border-l-4 border-amber-500">
                     <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">📶 Forfaits WiFi</p>
                     <p class="text-xl font-bold text-slate-900 dark:text-slate-100 mt-1">{{ number_format($totalWifi, 0, ',', ' ') }} F</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-white dark:bg-slate-800 shadow-sm rounded-lg p-5 border-l-4 border-blue-500">
+                    <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Bénéfice unités télécom</p>
+                    <p class="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">{{ number_format($beneficeUnites, 0, ',', ' ') }} F</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sur {{ $ventes->where('type', 'unite')->count() }} transaction(s)</p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 shadow-sm rounded-lg p-5 border-l-4 border-amber-500">
+                    <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Bénéfice WiFi</p>
+                    <p class="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">{{ number_format($beneficeWifi, 0, ',', ' ') }} F</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sur {{ $ventes->where('type', 'wifi')->count() }} transaction(s)</p>
                 </div>
             </div>
 
@@ -82,7 +97,12 @@
                                 <p class="text-xs text-slate-500 dark:text-slate-400">{{ \Carbon\Carbon::parse($vente['date'])->format('H:i') }}</p>
                             </div>
                         </div>
-                        <p class="font-semibold text-slate-800 dark:text-slate-100">{{ number_format($vente['montant'], 0, ',', ' ') }} F</p>
+                        <div class="text-right">
+                            <p class="font-semibold text-slate-800 dark:text-slate-100">{{ number_format($vente['montant'], 0, ',', ' ') }} F</p>
+                            @if ($vente['benefice'] !== null)
+                                <p class="text-xs text-emerald-600 dark:text-emerald-400">Bénéfice : {{ number_format($vente['benefice'], 0, ',', ' ') }} F</p>
+                            @endif
+                        </div>
                     </div>
                 @empty
                     <div class="px-6 py-12 text-center">

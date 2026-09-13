@@ -28,10 +28,16 @@ class DashboardController extends Controller
         $caLibrairie = $caParModule['librairie'] ?? 0;
         $caBoissons = $caParModule['boissons'] ?? 0;
 
-        // Bénéfice du jour Unités + WiFi
-        $beneficeUnitesJour = TransactionUnite::whereDate('date_transaction', $aujourdhui)->sum('benefice');
-        $beneficeWifiJour = TransactionWifi::whereDate('date_transaction', $aujourdhui)->sum('benefice');
-        $beneficeUnitesWifi = $beneficeUnitesJour + $beneficeWifiJour;
+        // Activité télécom du jour, détaillée par source pour éviter de mélanger les marges.
+        $transactionsUnitesJour = TransactionUnite::whereDate('date_transaction', $aujourdhui);
+        $transactionsWifiJour = TransactionWifi::whereDate('date_transaction', $aujourdhui);
+
+        $caUnitesJour = $transactionsUnitesJour->sum('montant_transige');
+        $beneficeUnitesJour = $transactionsUnitesJour->sum('benefice');
+        $nombreUnitesJour = $transactionsUnitesJour->count();
+        $caWifiJour = $transactionsWifiJour->sum('montant_vente');
+        $beneficeWifiJour = $transactionsWifiJour->sum('benefice');
+        $nombreWifiJour = $transactionsWifiJour->count();
 
         // Chiffre d'affaires total du mois (tous modules confondus)
         $caMois = Vente::where('statut', 'validee')
@@ -79,7 +85,12 @@ class DashboardController extends Controller
             'caSecretariat',
             'caLibrairie',
             'caBoissons',
-            'beneficeUnitesWifi',
+            'caUnitesJour',
+            'beneficeUnitesJour',
+            'nombreUnitesJour',
+            'caWifiJour',
+            'beneficeWifiJour',
+            'nombreWifiJour',
             'caMois',
             'produitsPlusVendus',
             'produitsStockBas',
