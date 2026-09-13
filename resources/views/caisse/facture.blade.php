@@ -325,7 +325,8 @@
             
             .container {
                 box-shadow: none !important;
-                max-width: 100% !important;
+                width: 190mm !important;
+                max-width: 190mm !important;
                 margin: 0 !important;
                 padding: 0 !important;
                 height: auto !important;
@@ -347,15 +348,29 @@
             }
 
             .entete {
+                display: grid !important;
+                grid-template-columns: minmax(0, 1fr) auto !important;
+                align-items: end !important;
+                flex-wrap: nowrap !important;
+                gap: 8mm !important;
                 min-height: 0 !important;
-                padding-top: 6px !important;
-                padding-bottom: 6px !important;
+                padding: 4px 6mm !important;
+            }
+
+            .entete-entreprise {
+                min-width: 0 !important;
+                width: auto !important;
             }
 
             .entete-logo img {
                 width: 100% !important;
                 max-width: 100% !important;
-                max-height: 105px !important;
+                max-height: 72px !important;
+            }
+
+            .entete-titre {
+                white-space: nowrap !important;
+                padding-bottom: 4px !important;
             }
 
             .entete-titre h1 {
@@ -445,8 +460,7 @@
 
             .pied-page {
                 display: block !important;
-                padding-top: 5px !important;
-                padding-bottom: 5px !important;
+                padding: 3px 6mm !important;
                 page-break-before: auto !important;
                 page-break-after: auto !important;
                 break-before: auto !important;
