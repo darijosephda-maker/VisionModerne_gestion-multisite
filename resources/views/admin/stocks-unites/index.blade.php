@@ -61,7 +61,12 @@
                                     <td class="px-6 py-4 text-slate-600 dark:text-slate-300">{{ number_format($stock->capital_initial, 0, ',', ' ') }} F</td>
                                     <td class="px-6 py-4 text-slate-600 dark:text-slate-300">{{ number_format($stock->seuil_alerte, 0, ',', ' ') }} F</td>
                                     <td class="px-6 py-4 text-slate-600 dark:text-slate-300 text-xs">
-                                        {{ $stock->date_alimentation ? $stock->date_alimentation->format('d/m/Y') : '—' }}
+                                        @if ($stock->date_alimentation)
+                                            <span class="font-medium">{{ $stock->date_alimentation->format('d/m/Y') }}</span>
+                                            <span class="block text-slate-400 dark:text-slate-500">à {{ $stock->date_alimentation->format('H:i') }}</span>
+                                        @else
+                                            —
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 text-right">
                                         <button type="button"

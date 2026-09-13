@@ -43,7 +43,7 @@
             <div x-show="sidebarOpen" x-transition.opacity @click="sidebarOpen = false" class="fixed inset-0 z-20 bg-slate-900/40 lg:hidden"></div>
 
             {{-- SIDEBAR FIXE --}}
-            <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'" class="fixed inset-y-0 left-0 w-64 bg-slate-200/95 dark:bg-slate-900/95 border-r border-slate-300 dark:border-slate-700 flex flex-col z-30 shadow-sm transition-transform duration-200 ease-in-out lg:translate-x-0">
+            <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'" class="admin-sidebar fixed inset-y-0 left-0 w-64 bg-slate-200/95 dark:bg-slate-900/95 border-r border-slate-300 dark:border-slate-700 flex flex-col z-30 shadow-sm transition-transform duration-200 ease-in-out lg:translate-x-0">
                 <div class="h-20 flex items-center gap-3 px-4 border-b border-slate-300 dark:border-slate-700 shrink-0 bg-slate-200 dark:bg-slate-900">
                     <img src="{{ asset('images/Logo.jpeg') }}" alt="Vision Moderne Construction" class="h-16 w-auto rounded-lg object-contain shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
                     <div class="leading-[1.1]">
@@ -155,7 +155,7 @@
             <div class="lg:ml-64 flex flex-col min-h-screen">
 
                 {{-- HEADER FIXE --}}
-                <header class="sticky top-0 z-20 bg-slate-200/95 dark:bg-slate-900/95 shadow-sm border-b border-slate-300 dark:border-slate-700 backdrop-blur-sm">
+                <header class="admin-header sticky top-0 z-20 bg-slate-200/95 dark:bg-slate-900/95 shadow-sm border-b border-slate-300 dark:border-slate-700 backdrop-blur-sm">
                     <div class="px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
                         <div class="flex items-center gap-3 min-w-0">
                             <button type="button" @click="sidebarOpen = !sidebarOpen" class="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200">
@@ -197,14 +197,14 @@
                 </header>
 
                 {{-- CONTENU --}}
-                <main class="flex-1 pb-32 bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100">
+                <main class="admin-main flex-1 pb-32 bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100">
                     {{ $slot }}
                 </main>
 
             </div>
 
             {{-- FOOTER FIXE --}}
-            <footer class="fixed bottom-0 left-0 right-0 z-20 bg-slate-200/95 dark:bg-slate-900/95 border-t border-slate-300 dark:border-slate-700 backdrop-blur-sm lg:left-64">
+            <footer class="admin-footer fixed bottom-0 left-0 right-0 z-20 bg-slate-200/95 dark:bg-slate-900/95 border-t border-slate-300 dark:border-slate-700 backdrop-blur-sm lg:left-64">
                 <div class="px-3 sm:px-6 py-3 sm:py-4 flex flex-col items-center text-center gap-2">
                     <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">VISION MODERNE CONSTRUCTION SARL</p>
 

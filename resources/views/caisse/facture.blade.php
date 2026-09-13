@@ -13,7 +13,7 @@
         
         @page {
             size: A4;
-            margin: 8mm;
+            margin: 5mm;
         }
 
         html, body {
@@ -330,8 +330,10 @@
                 padding: 0 !important;
                 height: auto !important;
                 overflow: visible !important;
-                page-break-after: avoid !important;
-                break-after: avoid !important;
+                page-break-after: auto !important;
+                break-after: auto !important;
+                page-break-before: auto !important;
+                break-before: auto !important;
             }
 
             .entete,
@@ -345,7 +347,7 @@
             }
 
             .entete {
-                min-height: 78px !important;
+                min-height: 0 !important;
                 padding-top: 6px !important;
                 padding-bottom: 6px !important;
             }
@@ -353,7 +355,7 @@
             .entete-logo img {
                 width: 100% !important;
                 max-width: 100% !important;
-                max-height: none !important;
+                max-height: 105px !important;
             }
 
             .entete-titre h1 {
@@ -427,8 +429,7 @@
             .info-facture,
             .table-container,
             .total-section,
-            .mentions,
-            .pied-page {
+            .mentions {
                 break-inside: avoid !important;
                 page-break-inside: avoid !important;
             }
@@ -437,8 +438,8 @@
             thead,
             tbody,
             tr {
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
+                page-break-inside: auto !important;
+                break-inside: auto !important;
             }
             
             .no-print {
@@ -450,6 +451,10 @@
                 display: block !important;
                 padding-top: 5px !important;
                 padding-bottom: 5px !important;
+                page-break-before: auto !important;
+                page-break-after: auto !important;
+                break-before: auto !important;
+                break-after: auto !important;
             }
 
             .pied-page p:not(:first-child) {

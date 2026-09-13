@@ -50,7 +50,68 @@
         word-break: break-word;
     }
 
+    .rapport-print-header {
+        display: none;
+    }
+
     @media print {
+        @page {
+            size: A4;
+            margin: 8mm;
+        }
+
+        html,
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
+            min-height: 0 !important;
+        }
+
+        .admin-sidebar,
+        .admin-header,
+        .admin-footer {
+            display: none !important;
+        }
+
+        .admin-main {
+            padding-bottom: 0 !important;
+            min-height: 0 !important;
+            background: white !important;
+        }
+
+        .rapport-page {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+        .rapport-page > .max-w-7xl {
+            max-width: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            gap: 12px !important;
+        }
+
+        .rapport-print-header {
+            display: block !important;
+            border-bottom: 2px solid #1e3a8a;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .rapport-print-header h1 {
+            margin: 0;
+            color: #1e3a8a !important;
+            font-size: 20px;
+            line-height: 1.2;
+        }
+
+        .rapport-print-header p {
+            margin: 3px 0 0;
+            color: #475569 !important;
+            font-size: 10px;
+        }
+
         body {
             background: white;
         }
@@ -118,8 +179,15 @@
             width: 15%;
         }
 
-        .pagination {
+        .pagination,
+        nav[role="navigation"] {
             display: none !important;
+        }
+
+        .stat-card,
+        .rapport-page > .max-w-7xl > div {
+            break-inside: avoid;
+            page-break-inside: avoid;
         }
     }
 </style>
@@ -131,8 +199,12 @@
         </h2>
     </x-slot>
 
-    <div class="py-8">
+    <div class="rapport-page py-8">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 space-y-6">
+            <div class="rapport-print-header">
+                <h1>Vision Moderne Construction SARL</h1>
+                <p>Rapport des ventes | Période : {{ $dateDebut }} au {{ $dateFin }} | Généré le {{ now()->format('d/m/Y à H:i') }}</p>
+            </div>
             <div class="no-print rounded-3xl bg-gradient-to-r from-indigo-700 via-violet-700 to-sky-600 p-5 sm:p-6 shadow-[0_20px_45px_rgba(79,70,229,0.22)] ring-1 ring-white/10">
                 <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <div>
