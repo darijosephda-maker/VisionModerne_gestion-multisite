@@ -425,21 +425,17 @@
                 line-height: 1.35 !important;
             }
 
-            .entete,
-            .info-facture,
-            .table-container,
-            .total-section,
-            .mentions {
-                break-inside: avoid !important;
-                page-break-inside: avoid !important;
-            }
-
             table,
             thead,
             tbody,
             tr {
                 page-break-inside: auto !important;
                 break-inside: auto !important;
+            }
+
+            tr {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
             
             .no-print {

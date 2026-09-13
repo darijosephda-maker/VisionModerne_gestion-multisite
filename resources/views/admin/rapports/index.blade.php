@@ -80,6 +80,12 @@
             background: white !important;
         }
 
+        .admin-shell,
+        .lg\:ml-64 {
+            min-height: 0 !important;
+            height: auto !important;
+        }
+
         .rapport-page {
             padding-top: 0 !important;
             padding-bottom: 0 !important;
@@ -184,8 +190,7 @@
             display: none !important;
         }
 
-        .stat-card,
-        .rapport-page > .max-w-7xl > div {
+        .stat-card {
             break-inside: avoid;
             page-break-inside: avoid;
         }

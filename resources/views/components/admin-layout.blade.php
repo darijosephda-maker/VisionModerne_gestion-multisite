@@ -38,7 +38,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased bg-slate-100 text-slate-800 dark:bg-slate-950 dark:text-slate-100">
-        <div x-data="{ darkMode: false, sidebarOpen: false, init() { try { const enabled = localStorage.getItem('darkMode') === 'true'; this.darkMode = enabled; document.documentElement.classList.toggle('dark', enabled); this.$watch('darkMode', value => { localStorage.setItem('darkMode', String(value)); document.documentElement.classList.toggle('dark', value); }); } catch (e) { this.darkMode = false; document.documentElement.classList.remove('dark'); } }, toggleSidebar() { this.sidebarOpen = !this.sidebarOpen; } }" :class="{ 'dark': darkMode }" class="min-h-screen bg-slate-100 dark:bg-slate-950">
+        <div x-data="{ darkMode: false, sidebarOpen: false, init() { try { const enabled = localStorage.getItem('darkMode') === 'true'; this.darkMode = enabled; document.documentElement.classList.toggle('dark', enabled); this.$watch('darkMode', value => { localStorage.setItem('darkMode', String(value)); document.documentElement.classList.toggle('dark', value); }); } catch (e) { this.darkMode = false; document.documentElement.classList.remove('dark'); } }, toggleSidebar() { this.sidebarOpen = !this.sidebarOpen; } }" :class="{ 'dark': darkMode }" class="admin-shell min-h-screen bg-slate-100 dark:bg-slate-950">
 
             <div x-show="sidebarOpen" x-transition.opacity @click="sidebarOpen = false" class="fixed inset-0 z-20 bg-slate-900/40 lg:hidden"></div>
 
