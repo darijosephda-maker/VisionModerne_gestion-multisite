@@ -13,7 +13,7 @@
         
         @page {
             size: A4;
-            margin: 5mm;
+            margin: 3mm;
         }
 
         html, body {
@@ -46,8 +46,8 @@
             justify-content: space-between;
             align-items: flex-end;
             width: 100%;
-            min-height: 110px;
-            padding: 10px 16px;
+            min-height: 78px;
+            padding: 6px 12px;
             background: linear-gradient(135deg, #f0f4ff 0%, #ffffff 100%);
             border-bottom: 3px solid #4f46e5;
             gap: 20px;
@@ -68,8 +68,9 @@
         .entete-logo img {
             width: 100%;
             max-width: 100%;
-            height: auto;
-            max-height: none;
+            height: 58px;
+            object-fit: contain;
+            object-position: left center;
             display: block;
         }
         
@@ -258,10 +259,15 @@
             color: #666;
             font-size: 11px;
             line-height: 1.6;
+            break-inside: avoid;
         }
 
         .pied-page p {
             margin: 3px 0;
+        }
+
+        .pagination-impression-fixe {
+            display: none;
         }
 
         /* === BOUTONS === */
@@ -335,6 +341,7 @@
                 break-after: auto !important;
                 page-break-before: auto !important;
                 break-before: auto !important;
+                break-inside: auto !important;
             }
 
             .entete,
@@ -352,9 +359,11 @@
                 grid-template-columns: minmax(0, 1fr) auto !important;
                 align-items: end !important;
                 flex-wrap: nowrap !important;
-                gap: 8mm !important;
+                gap: 4mm !important;
                 min-height: 0 !important;
-                padding: 4px 6mm !important;
+                height: 58px !important;
+                padding: 2px 4mm !important;
+                overflow: hidden !important;
             }
 
             .entete-entreprise {
@@ -365,7 +374,10 @@
             .entete-logo img {
                 width: 100% !important;
                 max-width: 100% !important;
-                max-height: 56px !important;
+                height: 42px !important;
+                max-height: 42px !important;
+                object-fit: contain !important;
+                object-position: left center !important;
             }
 
             .entete-titre {
@@ -374,7 +386,7 @@
             }
 
             .entete-titre h1 {
-                font-size: 24px !important;
+                font-size: 22px !important;
             }
 
             .info-facture {
@@ -460,15 +472,34 @@
 
             .pied-page {
                 display: block !important;
-                padding: 3px 6mm !important;
+                padding: 2px 6mm !important;
                 page-break-before: auto !important;
                 page-break-after: auto !important;
                 break-before: auto !important;
                 break-after: auto !important;
+                break-inside: avoid !important;
             }
 
             .pied-page p:not(:first-child) {
                 display: none !important;
+            }
+
+            .pagination-impression {
+                display: none !important;
+            }
+
+            .pagination-impression-fixe {
+                display: block !important;
+                position: fixed !important;
+                right: 4mm !important;
+                bottom: 1mm !important;
+                font-size: 9px !important;
+                color: #555 !important;
+                z-index: 10 !important;
+            }
+
+            .pagination-impression-fixe .page-courante::after {
+                content: counter(page);
             }
 
             img {
@@ -643,8 +674,11 @@
             <p><strong>✓ Merci pour votre achat !</strong></p>
             <p>Vision Moderne Construction SARL | Tous droits réservés</p>
             <p style="font-size: 10px; margin-top: 8px;">Facture générée le {{ now()->format('d/m/Y à H:i:s') }}</p>
+            <p class="pagination-impression">Page <span class="page-courante"></span> / <span class="pages-total"></span></p>
         </div>
     </div>
+
+    <div class="pagination-impression-fixe">Page <span class="page-courante"></span> / <span class="pages-total"></span></div>
 
     <script>
         // Nettoyer le panier après génération de la facture
@@ -655,6 +689,18 @@
                 console.warn('Panier non effacé:', e);
             }
         }
+
+        function preparerPaginationImpression() {
+            const pageHeight = 1122;
+            const totalPages = Math.max(1, Math.ceil(document.documentElement.scrollHeight / pageHeight));
+
+            document.querySelectorAll('.pages-total').forEach(element => {
+                element.textContent = totalPages;
+            });
+        }
+
+        window.addEventListener('beforeprint', preparerPaginationImpression);
+        preparerPaginationImpression();
     </script>
 </body>
 </html>
