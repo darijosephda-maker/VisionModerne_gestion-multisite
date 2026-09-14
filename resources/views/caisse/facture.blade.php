@@ -13,7 +13,7 @@
         
         @page {
             size: A4;
-            margin: 3mm;
+            margin: 5mm;
         }
 
         html, body {
@@ -46,8 +46,8 @@
             justify-content: space-between;
             align-items: flex-end;
             width: 100%;
-            min-height: 78px;
-            padding: 6px 12px;
+            min-height: 105px;
+            padding: 10px 16px;
             background: linear-gradient(135deg, #f0f4ff 0%, #ffffff 100%);
             border-bottom: 3px solid #4f46e5;
             gap: 20px;
@@ -68,7 +68,7 @@
         .entete-logo img {
             width: 100%;
             max-width: 100%;
-            height: 58px;
+            height: 78px;
             object-fit: contain;
             object-position: left center;
             display: block;
@@ -266,10 +266,6 @@
             margin: 3px 0;
         }
 
-        .pagination-impression-fixe {
-            display: none;
-        }
-
         /* === BOUTONS === */
         .no-print {
             display: flex;
@@ -361,8 +357,8 @@
                 flex-wrap: nowrap !important;
                 gap: 4mm !important;
                 min-height: 0 !important;
-                height: 58px !important;
-                padding: 2px 4mm !important;
+                height: 82px !important;
+                padding: 5px 6mm !important;
                 overflow: hidden !important;
             }
 
@@ -374,8 +370,8 @@
             .entete-logo img {
                 width: 100% !important;
                 max-width: 100% !important;
-                height: 42px !important;
-                max-height: 42px !important;
+                height: 64px !important;
+                max-height: 64px !important;
                 object-fit: contain !important;
                 object-position: left center !important;
             }
@@ -386,7 +382,7 @@
             }
 
             .entete-titre h1 {
-                font-size: 22px !important;
+                font-size: 27px !important;
             }
 
             .info-facture {
@@ -486,20 +482,6 @@
 
             .pagination-impression {
                 display: none !important;
-            }
-
-            .pagination-impression-fixe {
-                display: block !important;
-                position: fixed !important;
-                right: 4mm !important;
-                bottom: 1mm !important;
-                font-size: 9px !important;
-                color: #555 !important;
-                z-index: 10 !important;
-            }
-
-            .pagination-impression-fixe .page-courante::after {
-                content: counter(page);
             }
 
             img {
@@ -678,8 +660,6 @@
         </div>
     </div>
 
-    <div class="pagination-impression-fixe">Page <span class="page-courante"></span> / <span class="pages-total"></span></div>
-
     <script>
         // Nettoyer le panier après génération de la facture
         if (window.location.pathname.includes('/facture/')) {
@@ -690,17 +670,6 @@
             }
         }
 
-        function preparerPaginationImpression() {
-            const pageHeight = 1122;
-            const totalPages = Math.max(1, Math.ceil(document.documentElement.scrollHeight / pageHeight));
-
-            document.querySelectorAll('.pages-total').forEach(element => {
-                element.textContent = totalPages;
-            });
-        }
-
-        window.addEventListener('beforeprint', preparerPaginationImpression);
-        preparerPaginationImpression();
     </script>
 </body>
 </html>
