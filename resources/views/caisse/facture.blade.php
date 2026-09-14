@@ -46,8 +46,8 @@
             justify-content: space-between;
             align-items: flex-end;
             width: 100%;
-            min-height: 140px;
-            padding: 15px 20px;
+            min-height: 110px;
+            padding: 10px 16px;
             background: linear-gradient(135deg, #f0f4ff 0%, #ffffff 100%);
             border-bottom: 3px solid #4f46e5;
             gap: 20px;
@@ -80,7 +80,7 @@
         }
         
         .entete-titre h1 {
-            font-size: 38px;
+            font-size: 32px;
             color: #4f46e5;
             font-weight: 700;
             margin: 0 0 4px 0;
@@ -365,7 +365,7 @@
             .entete-logo img {
                 width: 100% !important;
                 max-width: 100% !important;
-                max-height: 72px !important;
+                max-height: 56px !important;
             }
 
             .entete-titre {
@@ -374,7 +374,7 @@
             }
 
             .entete-titre h1 {
-                font-size: 28px !important;
+                font-size: 24px !important;
             }
 
             .info-facture {

@@ -255,13 +255,33 @@
 
                 {{-- Liste des produits --}}
                 <div class="lg:col-span-2 space-y-3">
+                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-3">
+                        <label for="recherche-produits" class="sr-only">Rechercher un produit</label>
+                        <div class="relative">
+                            <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400" aria-hidden="true">🔎</span>
+                            <input id="recherche-produits" type="search" x-model="rechercheProduit"
+                                   placeholder="Rechercher rapidement un produit..."
+                                   autocomplete="off"
+                                   class="w-full rounded-md border-gray-300 bg-gray-50 py-2.5 pl-10 pr-10 text-sm text-gray-800 focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100">
+                            <button type="button" x-show="rechercheProduit" x-cloak @click="rechercheProduit = ''"
+                                    class="absolute inset-y-0 right-0 px-3 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                                    aria-label="Effacer la recherche">&times;</button>
+                        </div>
+                    </div>
+
                     <template x-if="produits.length === 0">
                         <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6 text-center text-gray-500 dark:text-gray-400">
                             Aucun produit actif dans ce module.
                         </div>
                     </template>
 
-                    <template x-for="produit in produits" :key="produit.id">
+                    <template x-if="produits.length > 0 && produitsFiltres.length === 0">
+                        <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6 text-center text-gray-500 dark:text-gray-400">
+                            Aucun produit ne correspond à votre recherche.
+                        </div>
+                    </template>
+
+                    <template x-for="produit in produitsFiltres" :key="produit.id">
                         <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4">
                             <div class="flex items-center justify-between mb-3">
                                 <p class="font-medium text-gray-800 dark:text-gray-200" x-text="produit.nom"></p>
@@ -409,6 +429,7 @@
         function caisse(produitsInitiaux) {
             return {
                 produits: produitsInitiaux,
+                rechercheProduit: '',
                 panier: [],
                 clientNom: '',
                 clientPrenom: '',
@@ -565,6 +586,16 @@
 
                 get total() {
                     return this.panier.reduce((sum, l) => sum + (l.prix * l.quantite), 0);
+                },
+
+                get produitsFiltres() {
+                    const recherche = this.rechercheProduit.trim().toLocaleLowerCase('fr-FR');
+
+                    if (!recherche) {
+                        return this.produits;
+                    }
+
+                    return this.produits.filter(produit => produit.nom.toLocaleLowerCase('fr-FR').includes(recherche));
                 }
             }
         }
