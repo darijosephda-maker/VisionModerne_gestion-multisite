@@ -44,8 +44,8 @@
                         <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-500/15 text-2xl">🕐</div>
                         <div>
                             <p class="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Horaires</p>
-                            <p class="mt-1 text-base font-semibold text-slate-900 dark:text-white">Lundi - Samedi</p>
-                            <p class="text-sm text-slate-500 dark:text-slate-300">Horaires à préciser</p>
+                            <p class="mt-1 text-base font-semibold text-slate-900 dark:text-white">Du Lundi au Dimanche</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-300">24h/24</p>
                         </div>
                     </div>
                 </div>
