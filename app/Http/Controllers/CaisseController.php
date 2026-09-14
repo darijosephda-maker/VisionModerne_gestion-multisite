@@ -255,7 +255,8 @@ class CaisseController extends Controller
 
     public function mesVentes(Request $request)
 {
-    $periode = $request->get('periode', 'jour');
+    $estAdministrateur = auth()->user()->isAdmin();
+    $periode = $estAdministrateur ? $request->get('periode', 'jour') : 'jour';
     $caissiereId = auth()->id();
 
     // Déterminer les dates selon la période
@@ -290,6 +291,8 @@ class CaisseController extends Controller
     };
 
     $ventesProduits = Vente::where('caissiere_id', $caissiereId)
+        ->where('statut', 'validee')
+        ->whereHas('lignes')
         ->whereBetween('date_vente', [$debut, $fin])
         ->get()
         ->map(fn ($v) => [
@@ -324,9 +327,9 @@ class CaisseController extends Controller
             'date' => $t->date_transaction,
         ]);
 
-    $toutesLesVentes = $ventesProduits
-        ->concat($ventesUnites)
-        ->concat($ventesWifi)
+    $toutesLesVentes = ($estAdministrateur
+        ? $ventesProduits->concat($ventesUnites)->concat($ventesWifi)
+        : $ventesProduits)
         ->sortByDesc('date')
         ->values();
 
@@ -343,13 +346,20 @@ class CaisseController extends Controller
         'total' => $total,
         'periode' => $periode,
         'periodLabel' => $periodLabel,
+        'estAdministrateur' => $estAdministrateur,
     ]);
 }
 
     public function facture(Vente $vente)
     {
-        // Vérifier que la vente appartient à l'utilisateur connecté ou qu'il est admin
-        if ($vente->caissiere_id !== auth()->id() && !auth()->user()->isAdmin()) {
+        $estAdministrateur = auth()->user()->isAdmin();
+
+        if (! $estAdministrateur && (
+            $vente->caissiere_id !== auth()->id()
+            || $vente->statut !== 'validee'
+            || ! $vente->date_vente->isToday()
+            || ! $vente->lignes()->exists()
+        )) {
             abort(403);
         }
 

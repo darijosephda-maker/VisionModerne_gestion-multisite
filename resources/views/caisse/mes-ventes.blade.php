@@ -9,6 +9,7 @@
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             {{-- Filtres période --}}
+            @if ($estAdministrateur)
             <div class="flex gap-2 flex-wrap">
                 <a href="{{ route('caisse.mes-ventes', ['periode' => 'jour']) }}"
                    class="px-4 py-2 rounded-lg font-semibold text-sm transition
@@ -26,6 +27,11 @@
                     📊 Ce mois
                 </a>
             </div>
+            @else
+                <div class="rounded-lg border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-indigo-800 dark:border-indigo-900/50 dark:bg-indigo-900/20 dark:text-indigo-200">
+                    Vous voyez uniquement vos ventes validées du jour avec facture.
+                </div>
+            @endif
 
             {{-- Bandeau résumé --}}
             <div class="bg-gradient-to-r from-indigo-600 to-indigo-500 rounded-xl p-6 text-white shadow-md">
@@ -51,6 +57,7 @@
                 $beneficeWifi = $ventes->where('type', 'wifi')->sum('benefice');
             @endphp
 
+            @if ($estAdministrateur)
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div class="bg-white dark:bg-slate-800 shadow-sm rounded-lg p-5 border-l-4 border-emerald-500">
                     <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">🛍️ Produits (Secrétariat / Librairie / Boissons / Services)</p>
@@ -78,6 +85,12 @@
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sur {{ $ventes->where('type', 'wifi')->count() }} transaction(s)</p>
                 </div>
             </div>
+            @else
+                <div class="bg-white dark:bg-slate-800 shadow-sm rounded-lg p-5 border-l-4 border-emerald-500">
+                    <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">🧾 Ventes avec facture</p>
+                    <p class="text-xl font-bold text-slate-900 dark:text-slate-100 mt-1">{{ number_format($totalProduits, 0, ',', ' ') }} F</p>
+                </div>
+            @endif
 
             {{-- Détail chronologique --}}
             <div class="bg-white dark:bg-slate-800 shadow-sm rounded-lg overflow-hidden">
