@@ -13,7 +13,7 @@
         
         @page {
             size: A4;
-            margin: 5mm;
+            margin: 0;
         }
 
         html, body {
@@ -327,8 +327,12 @@
             
             .container {
                 box-shadow: none !important;
-                width: 190mm !important;
-                max-width: 190mm !important;
+                display: flex !important;
+                flex-direction: column !important;
+                width: 210mm !important;
+                max-width: 210mm !important;
+                min-height: 297mm !important;
+                max-height: 297mm !important;
                 margin: 0 !important;
                 padding: 0 !important;
                 height: auto !important;
@@ -357,8 +361,8 @@
                 flex-wrap: nowrap !important;
                 gap: 4mm !important;
                 min-height: 0 !important;
-                height: 82px !important;
-                padding: 5px 6mm !important;
+                height: 92px !important;
+                padding: 7px 10mm !important;
                 overflow: hidden !important;
             }
 
@@ -387,8 +391,8 @@
 
             .info-facture {
                 gap: 8px !important;
-                padding-top: 6px !important;
-                padding-bottom: 6px !important;
+                padding-top: 10px !important;
+                padding-bottom: 10px !important;
             }
 
             .info-bloc {
@@ -409,23 +413,23 @@
             }
 
             .table-container {
-                padding-top: 7px !important;
-                padding-bottom: 7px !important;
+                padding-top: 12px !important;
+                padding-bottom: 12px !important;
             }
 
             th {
-                padding-top: 5px !important;
-                padding-bottom: 5px !important;
+                padding-top: 8px !important;
+                padding-bottom: 8px !important;
             }
 
             td {
-                padding-top: 4px !important;
-                padding-bottom: 4px !important;
+                padding-top: 7px !important;
+                padding-bottom: 7px !important;
             }
 
             .total-section {
-                padding-top: 7px !important;
-                padding-bottom: 7px !important;
+                padding-top: 14px !important;
+                padding-bottom: 14px !important;
             }
 
             .total-box {
@@ -443,8 +447,8 @@
             }
 
             .mentions {
-                padding-top: 6px !important;
-                padding-bottom: 6px !important;
+                padding-top: 12px !important;
+                padding-bottom: 12px !important;
                 line-height: 1.35 !important;
             }
 
@@ -468,7 +472,8 @@
 
             .pied-page {
                 display: block !important;
-                padding: 2px 6mm !important;
+                margin-top: auto !important;
+                padding: 10px 10mm !important;
                 page-break-before: auto !important;
                 page-break-after: auto !important;
                 break-before: auto !important;
