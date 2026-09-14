@@ -68,9 +68,8 @@
         .entete-logo img {
             width: 100%;
             max-width: 100%;
-            height: 78px;
-            object-fit: contain;
-            object-position: left center;
+            height: auto;
+            object-fit: fill;
             display: block;
         }
         
@@ -331,8 +330,8 @@
                 flex-direction: column !important;
                 width: 210mm !important;
                 max-width: 210mm !important;
-                min-height: 297mm !important;
-                max-height: 297mm !important;
+                min-height: 0 !important;
+                max-height: none !important;
                 margin: 0 !important;
                 padding: 0 !important;
                 height: auto !important;
@@ -361,7 +360,8 @@
                 flex-wrap: nowrap !important;
                 gap: 4mm !important;
                 min-height: 0 !important;
-                height: 92px !important;
+                height: auto !important;
+                min-height: 125px !important;
                 padding: 7px 10mm !important;
                 overflow: hidden !important;
             }
@@ -374,10 +374,9 @@
             .entete-logo img {
                 width: 100% !important;
                 max-width: 100% !important;
-                height: 64px !important;
-                max-height: 64px !important;
-                object-fit: contain !important;
-                object-position: left center !important;
+                height: auto !important;
+                max-height: none !important;
+                object-fit: fill !important;
             }
 
             .entete-titre {
