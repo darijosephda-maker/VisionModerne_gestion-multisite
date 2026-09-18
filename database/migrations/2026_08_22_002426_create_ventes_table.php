@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('ventes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('caissiere_id')->constrained('users')->cascadeOnDelete();
-            $table->enum('module', ['secretariat', 'librairie', 'boissons']);
+            $table->enum('module', ['secretariat', 'librairie', 'boissons', 'services', 'mixte']);
             $table->decimal('montant_total', 10, 2)->default(0);
             $table->enum('statut', ['validee', 'annulee'])->default('validee');
             $table->timestamp('date_vente')->useCurrent();

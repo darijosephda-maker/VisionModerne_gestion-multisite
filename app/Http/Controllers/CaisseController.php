@@ -64,39 +64,19 @@ class CaisseController extends Controller
     public function store(Request $request)
 {
     $validated = $request->validate([
-        'module' => 'required|in:secretariat,librairie,boissons,services',
+        'module' => 'required|in:secretariat,librairie,boissons,services,mixte',
         'lignes' => 'required|array|min:1',
+        'lignes.*.module' => 'nullable|in:secretariat,librairie,boissons,services',
+        'lignes.*.produit_id' => 'nullable|exists:produits,id',
+        'lignes.*.produit_unite_id' => 'nullable|exists:produit_unites,id',
+        'lignes.*.type_service_id' => 'nullable|exists:type_services,id',
+        'lignes.*.description_libre' => 'nullable|string|max:255',
+        'lignes.*.prix' => 'nullable|numeric|min:1|max:1000000',
+        'lignes.*.quantite' => 'required|integer|min:1|max:1000',
         'client_nom' => 'nullable|string|max:100',
         'client_prenom' => 'nullable|string|max:100',
         'client_telephone' => 'nullable|string|max:20',
     ]);
-
-    $isServiceModule = $validated['module'] === 'services';
-
-    if ($isServiceModule) {
-        $validated = $request->validate([
-            'module' => 'required|in:services',
-            'lignes' => 'required|array|min:1',
-            'lignes.*.type_service_id' => 'nullable|exists:type_services,id',
-            'lignes.*.description_libre' => 'nullable|string|max:255',
-            'lignes.*.prix' => 'required|numeric|min:1|max:1000000',
-            'lignes.*.quantite' => 'required|integer|min:1|max:1000',
-            'client_nom' => 'nullable|string|max:100',
-            'client_prenom' => 'nullable|string|max:100',
-            'client_telephone' => 'nullable|string|max:20',
-        ]);
-    } else {
-        $validated = $request->validate([
-            'module' => 'required|in:secretariat,librairie,boissons',
-            'lignes' => 'required|array|min:1',
-            'lignes.*.produit_id' => 'required|exists:produits,id',
-            'lignes.*.produit_unite_id' => 'required|exists:produit_unites,id',
-            'lignes.*.quantite' => 'required|integer|min:1',
-            'client_nom' => 'nullable|string|max:100',
-            'client_prenom' => 'nullable|string|max:100',
-            'client_telephone' => 'nullable|string|max:20',
-        ]);
-    }
 
     DB::beginTransaction();
 
@@ -104,18 +84,30 @@ class CaisseController extends Controller
         $montantTotal = 0;
         $lignesAEnregistrer = [];
 
-        foreach ($validated['lignes'] as $ligne) {
+        $modulesVendus = collect($validated['lignes'])
+            ->map(fn ($ligne) => $ligne['module'] ?? $validated['module'])
+            ->unique()
+            ->values();
 
-            if ($isServiceModule) {
+        foreach ($validated['lignes'] as $ligne) {
+            $moduleLigne = $ligne['module'] ?? $validated['module'];
+
+            if ($moduleLigne === 'services') {
                 if (empty($ligne['type_service_id']) && empty($ligne['description_libre'])) {
                     DB::rollBack();
                     return back()->with('error', "Chaque ligne de service doit avoir un type ou une description.")->withInput();
+                }
+
+                if (! isset($ligne['prix']) || $ligne['prix'] < 1) {
+                    DB::rollBack();
+                    return back()->with('error', "Le prix de chaque service doit être supérieur à zéro.")->withInput();
                 }
 
                 $sousTotal = $ligne['prix'] * $ligne['quantite'];
                 $montantTotal += $sousTotal;
 
                 $lignesAEnregistrer[] = [
+                    'module' => 'services',
                     'produit_id' => null,
                     'produit_unite_id' => null,
                     'type_service_id' => $ligne['type_service_id'] ?? null,
@@ -126,6 +118,11 @@ class CaisseController extends Controller
                 ];
 
                 continue;
+            }
+
+            if (empty($ligne['produit_id']) || empty($ligne['produit_unite_id'])) {
+                DB::rollBack();
+                return back()->with('error', "Chaque ligne produit doit contenir un produit et une unité.")->withInput();
             }
 
             $produit = Produit::lockForUpdate()->findOrFail($ligne['produit_id']);
@@ -146,6 +143,7 @@ class CaisseController extends Controller
             }
 
             $lignesAEnregistrer[] = [
+                'module' => $moduleLigne,
                 'produit_id' => $produit->id,
                 'produit_unite_id' => $unite->id,
                 'type_service_id' => null,
@@ -158,7 +156,7 @@ class CaisseController extends Controller
 
         $vente = Vente::create([
             'caissiere_id' => auth()->id(),
-            'module' => $validated['module'],
+            'module' => $modulesVendus->count() > 1 ? 'mixte' : $modulesVendus->first(),
             'montant_total' => $montantTotal,
             'client_nom' => $validated['client_nom'] ?? null,
             'client_prenom' => $validated['client_prenom'] ?? null,

@@ -12,6 +12,7 @@ class VenteLigne extends Model
 
     protected $fillable = [
         'vente_id',
+        'module',
         'produit_id',
         'produit_unite_id',
         'type_service_id',

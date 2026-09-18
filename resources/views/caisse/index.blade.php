@@ -351,8 +351,8 @@
         </form>
 
         <!-- Modal Client et Confirmation -->
-        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="modalClient" @click.self="fermerModalClient()">
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-[0_24px_60px_rgba(15,23,42,0.28)] max-w-lg w-full flex flex-col overflow-hidden border border-slate-200 dark:border-slate-700" style="max-height: calc(100vh - 40px);">
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4" id="modalClient" @click.self="fermerModalClient()">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-[0_24px_60px_rgba(15,23,42,0.28)] max-w-lg w-full h-[calc(100dvh-1.5rem)] max-h-[calc(100dvh-1.5rem)] sm:h-auto sm:max-h-[calc(100dvh-2rem)] flex flex-col overflow-hidden border border-slate-200 dark:border-slate-700">
                 <div class="bg-gradient-to-r from-indigo-600 via-violet-600 to-sky-600 text-white px-6 py-4 flex-shrink-0">
                     <div class="flex items-center justify-between gap-3">
                         <div>
@@ -363,7 +363,7 @@
                     </div>
                 </div>
 
-                <div class="flex-1 overflow-y-auto p-5 space-y-4" style="min-height: 0; max-height: 62vh;">
+                <div class="flex-1 min-h-0 overflow-y-auto p-4 sm:p-5 space-y-4">
                     <div class="rounded-xl border border-blue-100 bg-blue-50/80 dark:border-blue-900/60 dark:bg-blue-950/20 p-4 space-y-3">
                         <div class="flex items-center gap-2">
                             <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-white text-xs font-bold">i</span>
@@ -424,7 +424,7 @@
                     </div>
                 </div>
 
-                <div class="flex-shrink-0 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/60 p-3 flex gap-2">
+                <div class="flex-shrink-0 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/60 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex gap-2">
                     <button type="button" @click="fermerModalClient()"
                             class="flex-1 px-4 py-2.5 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 font-semibold text-sm rounded-xl hover:bg-slate-300 dark:hover:bg-slate-600 transition whitespace-nowrap">
                         Annuler
@@ -446,13 +446,14 @@
                 produits: produitsInitiaux,
                 rechercheProduit: '',
                 panier: [],
+                module: @js($module),
                 clientNom: '',
                 clientPrenom: '',
                 clientTelephone: '',
                 formeVente: null,
 
                 chargerPanierDuStorage() {
-                    const panierStocke = localStorage.getItem('panier_caisse');
+                    const panierStocke = localStorage.getItem(this.clePanier);
                     if (panierStocke) {
                         try {
                             this.panier = JSON.parse(panierStocke);
@@ -464,7 +465,11 @@
                 },
 
                 sauvegarderPanierDanStorage() {
-                    localStorage.setItem('panier_caisse', JSON.stringify(this.panier));
+                    localStorage.setItem(this.clePanier, JSON.stringify(this.panier));
+                },
+
+                get clePanier() {
+                    return 'panier_caisse';
                 },
 
                 ajouterAuPanier(produit, unite) {
@@ -473,6 +478,7 @@
                         existant.quantite++;
                     } else {
                         this.panier.push({
+                            module: this.module,
                             produit_id: produit.id,
                             unite_id: unite.id,
                             nom: produit.nom,
@@ -486,6 +492,7 @@
 
                 ajouterService(typeServiceId, nom, prix, quantite) {
                     this.panier.push({
+                        module: this.module,
                         type_service_id: typeServiceId,
                         description_libre: typeServiceId ? null : nom,
                         nom: nom,
@@ -529,11 +536,18 @@
 
                     const moduleInput = form.querySelector('input[name="module"]');
                     if (moduleInput) {
-                        moduleInput.value = '{{ $module }}';
+                        const modules = this.panier.map(ligne => ligne.module).filter((module, index, lignes) => lignes.indexOf(module) === index);
+                        moduleInput.value = modules.length > 1 ? 'mixte' : modules[0];
                     }
 
                     this.panier.forEach((ligne, index) => {
                         if (ligne.produit_id !== undefined) {
+                            const inputModule = document.createElement('input');
+                            inputModule.type = 'hidden';
+                            inputModule.name = `lignes[${index}][module]`;
+                            inputModule.value = ligne.module;
+                            form.appendChild(inputModule);
+
                             const inputProduitId = document.createElement('input');
                             inputProduitId.type = 'hidden';
                             inputProduitId.name = `lignes[${index}][produit_id]`;
@@ -552,6 +566,12 @@
                             inputQuantite.value = ligne.quantite;
                             form.appendChild(inputQuantite);
                         } else {
+                            const inputModule = document.createElement('input');
+                            inputModule.type = 'hidden';
+                            inputModule.name = `lignes[${index}][module]`;
+                            inputModule.value = ligne.module;
+                            form.appendChild(inputModule);
+
                             const inputTypeServiceId = document.createElement('input');
                             inputTypeServiceId.type = 'hidden';
                             inputTypeServiceId.name = `lignes[${index}][type_service_id]`;

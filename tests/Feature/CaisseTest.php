@@ -81,3 +81,50 @@ it('enregistre la vingtieme vente sans limite artificielle', function () {
     expect(Vente::count())->toBe(20)
         ->and($produit->fresh()->quantite_stock)->toBe(0);
 });
+
+it('enregistre une facture avec un produit et un service de modules differents', function () {
+    $user = User::factory()->create([
+        'role' => 'caissiere',
+    ]);
+
+    $produit = Produit::factory()->create([
+        'module' => 'librairie',
+        'quantite_stock' => 5,
+        'actif' => true,
+    ]);
+
+    $unite = ProduitUnite::factory()->create([
+        'produit_id' => $produit->id,
+        'type_unite' => 'detail',
+        'quantite_equivalente_detail' => 1,
+        'prix_vente_unite' => 250,
+        'actif' => true,
+    ]);
+
+    $response = $this->actingAs($user)->post(route('caisse.store'), [
+        'module' => 'mixte',
+        'lignes' => [
+            [
+                'module' => 'librairie',
+                'produit_id' => $produit->id,
+                'produit_unite_id' => $unite->id,
+                'quantite' => 1,
+            ],
+            [
+                'module' => 'services',
+                'description_libre' => 'Photocopie',
+                'prix' => 100,
+                'quantite' => 2,
+            ],
+        ],
+    ]);
+
+    $response->assertRedirect();
+    $vente = Vente::latest('id')->first();
+
+    expect($vente->module)->toBe('mixte')
+        ->and($vente->lignes)->toHaveCount(2)
+        ->and($vente->lignes->pluck('module')->sort()->values()->all())->toBe(['librairie', 'services'])
+        ->and((string) $vente->montant_total)->toBe('450.00')
+        ->and($produit->fresh()->quantite_stock)->toBe(4);
+});

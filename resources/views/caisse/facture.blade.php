@@ -555,10 +555,30 @@
                 padding: 10px;
             }
 
+            .no-print {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .no-print .btn {
+                width: 100%;
+                text-align: center;
+            }
+
             .entete {
                 flex-direction: column;
                 min-height: auto;
                 padding: 10px 15px;
+                align-items: stretch;
+            }
+
+            .entete-entreprise {
+                min-width: 0;
+            }
+
+            .entete-logo img {
+                max-height: 90px;
+                object-fit: contain;
             }
 
             .entete-titre {
@@ -575,6 +595,16 @@
 
             .total-box {
                 max-width: 100%;
+            }
+
+            .table-container {
+                overflow-x: auto;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            table {
+                min-width: 360px;
             }
 
             table, th, td {
@@ -594,7 +624,7 @@
 <body>
     <div class="no-print">
         <button class="btn btn-print" onclick="window.print()">🖨️ Imprimer facture</button>
-        <a href="{{ route('caisse.index', ['module' => $vente->module]) }}" class="btn btn-back">← Retour caisse</a>
+        <a href="{{ route('caisse.index', ['module' => $vente->module === 'mixte' ? 'librairie' : $vente->module]) }}" class="btn btn-back">← Retour caisse</a>
     </div>
 
     <div class="container">
@@ -618,7 +648,7 @@
                 <p><strong>Date :</strong> {{ $vente->date_vente->format('d/m/Y') }}</p>
                 <p><strong>Heure :</strong> {{ $vente->date_vente->format('H:i:s') }}</p>
                 <p class="caissiere-field"><strong>Caissière :</strong> {{ $vente->caissiere->name }}</p>
-                <p><strong>Module :</strong> {{ ucfirst(str_replace('_', ' ', $vente->module)) }}</p>
+                <p><strong>Module :</strong> {{ $vente->module === 'mixte' ? 'Vente multi-module' : ucfirst(str_replace('_', ' ', $vente->module)) }}</p>
             </div>
             <div class="info-bloc">
                 <h3>Détails factu</h3>
@@ -662,6 +692,7 @@
                     @foreach ($vente->lignes as $ligne)
                         <tr>
                             <td>
+                                <small>{{ ucfirst(str_replace('_', ' ', $ligne->module ?? $vente->module)) }}</small><br>
                                 @if ($ligne->produit_id)
                                     <strong>{{ $ligne->produit->nom ?? 'Produit supprimé' }}</strong>
                                 @elseif ($ligne->type_service_id)
@@ -733,6 +764,7 @@
     </script>
 
     <script>
+        localStorage.removeItem('panier_caisse');
         localStorage.removeItem('panier_caisse');
     </script>
 </body>
