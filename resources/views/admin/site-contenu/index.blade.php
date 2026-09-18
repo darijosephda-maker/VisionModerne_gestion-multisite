@@ -1,7 +1,7 @@
 <x-admin-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Contenu du site
+            Gestion du contenu public du site
         </h2>
     </x-slot>
 
@@ -13,8 +13,14 @@
                 </div>
             @endif
 
-            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-5">
-                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Ajouter un contenu</h3>
+            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-5 ring-1 ring-slate-200 dark:ring-slate-700">
+                <div class="mb-5">
+                    <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-indigo-600 dark:text-indigo-300">Vitrine digitale</p>
+                    <h3 class="mt-2 text-lg font-semibold text-gray-800 dark:text-gray-200">Gestion du contenu public</h3>
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                        Cette section permet de piloter les informations visibles par les visiteurs afin de maintenir une présence en ligne professionnelle, cohérente et alignée avec l’image de marque de l’entreprise.
+                    </p>
+                </div>
 
                 <form method="POST" action="{{ route('admin.site-contenu.store') }}" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     @csrf
