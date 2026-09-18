@@ -696,7 +696,6 @@
                 <div class="validation-bloc">
                     <strong>Responsable</strong>
                     <div class="validation-responsable">{{ $vente->caissiere->name ?? '________________' }}</div>
-                    Signature :
                 </div>
             </div>
             <p class="footer-meta">Vision Moderne Construction SARL | Tous droits réservés</p>
