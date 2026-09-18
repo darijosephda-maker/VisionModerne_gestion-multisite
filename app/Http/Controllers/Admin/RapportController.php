@@ -30,6 +30,7 @@ class RapportController extends Controller
 
         $facturesQuery = Vente::query()
             ->where('statut', 'validee')
+            ->whereIn('module', ['secretariat', 'librairie', 'boissons', 'services'])
             ->whereDate('date_vente', '>=', $dateDebut)
             ->whereDate('date_vente', '<=', $dateFin);
 
@@ -82,6 +83,7 @@ class RapportController extends Controller
         $caissiereId = $request->get('caissiere_id', '');
 
         $ventesQuery = Vente::where('statut', 'validee')
+            ->whereIn('module', ['secretariat', 'librairie', 'boissons', 'services'])
             ->whereDate('date_vente', '>=', $dateDebut)
             ->whereDate('date_vente', '<=', $dateFin);
 
