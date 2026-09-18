@@ -266,18 +266,17 @@
         }
 
         .validation-facture {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
+            display: flex;
+            justify-content: flex-end;
             margin: 22px 20px 8px;
-            text-align: left;
+            text-align: center;
             break-inside: avoid;
         }
 
         .validation-bloc {
             min-height: 90px;
-            border: 1px solid #d1d5db;
-            padding: 10px 12px;
+            width: 45%;
+            padding: 10px 0;
             font-size: 11px;
         }
 
@@ -512,11 +511,11 @@
 
             .validation-facture {
                 margin: 18px 10mm 8px !important;
-                gap: 15mm !important;
             }
 
             .validation-bloc {
                 min-height: 85px !important;
+                width: 45% !important;
             }
 
             .pagination-impression {
@@ -698,11 +697,6 @@
                     <strong>Responsable</strong>
                     <div class="validation-responsable">{{ $vente->caissiere->name ?? '________________' }}</div>
                     Signature :
-                </div>
-                <div class="validation-bloc">
-                    <strong>Cachet</strong>
-                    <br>
-                    <br>
                 </div>
             </div>
             <p class="footer-meta">Vision Moderne Construction SARL | Tous droits réservés</p>
