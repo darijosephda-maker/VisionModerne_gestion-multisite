@@ -290,6 +290,14 @@
             margin-bottom: 22px;
         }
 
+        .signature-name {
+            display: inline;
+        }
+
+        .signature-print {
+            display: none;
+        }
+
         /* === BOUTONS === */
         .no-print {
             display: flex;
@@ -494,6 +502,14 @@
                 visibility: hidden !important;
             }
 
+            .signature-name {
+                display: none !important;
+            }
+
+            .signature-print {
+                display: inline !important;
+            }
+
             .pied-page {
                 display: block !important;
                 margin-top: auto !important;
@@ -601,7 +617,7 @@
                 <h3>Infos de vente</h3>
                 <p><strong>Date :</strong> {{ $vente->date_vente->format('d/m/Y') }}</p>
                 <p><strong>Heure :</strong> {{ $vente->date_vente->format('H:i:s') }}</p>
-                <p><strong>Caissière :</strong> {{ $vente->caissiere->name }}</p>
+                <p class="caissiere-field"><strong>Caissière :</strong> {{ $vente->caissiere->name }}</p>
                 <p><strong>Module :</strong> {{ ucfirst(str_replace('_', ' ', $vente->module)) }}</p>
             </div>
             <div class="info-bloc">
@@ -694,8 +710,8 @@
             <p><strong>✓ Merci pour votre achat !</strong></p>
             <div class="validation-facture">
                 <div class="validation-bloc">
-                    <strong>Responsable</strong>
-                    <div class="validation-responsable">{{ $vente->caissiere->name ?? '________________' }}</div>
+                    <strong class="signature-name">{{ $vente->caissiere->name }}</strong>
+                    <strong class="signature-print">La Responsable</strong>
                 </div>
             </div>
             <p class="footer-meta">Vision Moderne Construction SARL | Tous droits réservés</p>
