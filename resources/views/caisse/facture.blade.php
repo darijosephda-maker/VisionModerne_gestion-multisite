@@ -731,5 +731,9 @@
         }
 
     </script>
+
+    <script>
+        localStorage.removeItem('panier_caisse');
+    </script>
 </body>
 </html>

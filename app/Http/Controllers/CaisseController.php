@@ -13,6 +13,7 @@ use App\Models\Vente;
 use App\Models\VenteLigne;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CaisseController extends Controller
 {
@@ -178,6 +179,11 @@ class CaisseController extends Controller
 
     } catch (\Exception $e) {
         DB::rollBack();
+        Log::error('Erreur lors de l\'enregistrement d\'une vente.', [
+            'user_id' => auth()->id(),
+            'module' => $validated['module'] ?? null,
+            'exception' => $e,
+        ]);
         return back()->with('error', "Une erreur est survenue lors de l'enregistrement de la vente.")->withInput();
     }
 }

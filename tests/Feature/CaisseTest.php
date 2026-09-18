@@ -45,3 +45,39 @@ it('enregistre une vente avec infos client et redirige vers la facture', functio
         ->and($vente->client_telephone)->toBe('76000000')
         ->and((string) $vente->montant_total)->toBe('500.00');
 });
+
+it('enregistre la vingtieme vente sans limite artificielle', function () {
+    $user = User::factory()->create([
+        'role' => 'caissiere',
+    ]);
+
+    $produit = Produit::factory()->create([
+        'module' => 'librairie',
+        'quantite_stock' => 20,
+        'actif' => true,
+    ]);
+
+    $unite = ProduitUnite::factory()->create([
+        'produit_id' => $produit->id,
+        'type_unite' => 'detail',
+        'quantite_equivalente_detail' => 1,
+        'prix_vente_unite' => 250,
+        'actif' => true,
+    ]);
+
+    foreach (range(1, 20) as $numeroVente) {
+        $response = $this->actingAs($user)->post(route('caisse.store'), [
+            'module' => 'librairie',
+            'lignes' => [[
+                'produit_id' => $produit->id,
+                'produit_unite_id' => $unite->id,
+                'quantite' => 1,
+            ]],
+        ]);
+
+        $response->assertRedirect(route('caisse.facture', ['vente' => $numeroVente]));
+    }
+
+    expect(Vente::count())->toBe(20)
+        ->and($produit->fresh()->quantite_stock)->toBe(0);
+});
