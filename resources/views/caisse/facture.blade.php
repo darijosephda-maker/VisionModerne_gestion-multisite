@@ -265,6 +265,32 @@
             margin: 3px 0;
         }
 
+        .validation-facture {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 22px 20px 8px;
+            text-align: left;
+            break-inside: avoid;
+        }
+
+        .validation-bloc {
+            min-height: 90px;
+            border: 1px solid #d1d5db;
+            padding: 10px 12px;
+            font-size: 11px;
+        }
+
+        .validation-bloc strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+
+        .validation-responsable {
+            margin-bottom: 22px;
+        }
+
         /* === BOUTONS === */
         .no-print {
             display: flex;
@@ -480,8 +506,17 @@
                 break-inside: avoid !important;
             }
 
-            .pied-page p:not(:first-child) {
+            .pied-page .footer-meta {
                 display: none !important;
+            }
+
+            .validation-facture {
+                margin: 18px 10mm 8px !important;
+                gap: 15mm !important;
+            }
+
+            .validation-bloc {
+                min-height: 85px !important;
             }
 
             .pagination-impression {
@@ -658,9 +693,21 @@
         <!-- PIED PAGE -->
         <div class="pied-page">
             <p><strong>✓ Merci pour votre achat !</strong></p>
-            <p>Vision Moderne Construction SARL | Tous droits réservés</p>
-            <p style="font-size: 10px; margin-top: 8px;">Facture générée le {{ now()->format('d/m/Y à H:i:s') }}</p>
-            <p class="pagination-impression">Page <span class="page-courante"></span> / <span class="pages-total"></span></p>
+            <div class="validation-facture">
+                <div class="validation-bloc">
+                    <strong>Responsable</strong>
+                    <div class="validation-responsable">{{ $vente->caissiere->name ?? '________________' }}</div>
+                    Signature :
+                </div>
+                <div class="validation-bloc">
+                    <strong>Cachet</strong>
+                    <br>
+                    <br>
+                </div>
+            </div>
+            <p class="footer-meta">Vision Moderne Construction SARL | Tous droits réservés</p>
+            <p class="footer-meta" style="font-size: 10px; margin-top: 8px;">Facture générée le {{ now()->format('d/m/Y à H:i:s') }}</p>
+            <p class="pagination-impression footer-meta">Page <span class="page-courante"></span> / <span class="pages-total"></span></p>
         </div>
     </div>
 
