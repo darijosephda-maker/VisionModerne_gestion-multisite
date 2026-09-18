@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
                 <div class="bg-white dark:bg-gray-800 shadow-sm rounded-2xl p-5 border-l-4 border-blue-500 ring-1 ring-slate-100 dark:ring-slate-700 transition hover:-translate-y-0.5 hover:shadow-md">
                     <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Secrétariat (jour)</p>
                     <p class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ number_format($caSecretariat, 0, ',', ' ') }} F</p>
@@ -63,6 +63,10 @@
                 <div class="bg-white dark:bg-gray-800 shadow-sm rounded-2xl p-5 border-l-4 border-amber-500 ring-1 ring-slate-100 dark:ring-slate-700 transition hover:-translate-y-0.5 hover:shadow-md">
                     <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Boissons (jour)</p>
                     <p class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ number_format($caBoissons, 0, ',', ' ') }} F</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 shadow-sm rounded-2xl p-5 border-l-4 border-rose-500 ring-1 ring-slate-100 dark:ring-slate-700 transition hover:-translate-y-0.5 hover:shadow-md">
+                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Services (jour)</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ number_format($caServices, 0, ',', ' ') }} F</p>
                 </div>
                 <div class="bg-white dark:bg-gray-800 shadow-sm rounded-2xl p-5 border-l-4 border-slate-500 ring-1 ring-slate-100 dark:ring-slate-700 transition hover:-translate-y-0.5 hover:shadow-md">
                     <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Ventes produits (mois)</p>

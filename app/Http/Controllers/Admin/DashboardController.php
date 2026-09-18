@@ -28,6 +28,16 @@ class DashboardController extends Controller
         $caLibrairie = $caParModule['librairie'] ?? 0;
         $caBoissons = $caParModule['boissons'] ?? 0;
 
+        $caServices = VenteLigne::whereHas('vente', function ($query) use ($aujourdhui) {
+            $query->where('statut', 'validee')
+                ->whereDate('date_vente', $aujourdhui);
+        })
+            ->where(function ($query) {
+                $query->whereNotNull('type_service_id')
+                    ->orWhereNotNull('description_libre');
+            })
+            ->sum('sous_total');
+
         // Activité télécom du jour, détaillée par source pour éviter de mélanger les marges.
         $transactionsUnitesJour = TransactionUnite::whereDate('date_transaction', $aujourdhui);
         $transactionsWifiJour = TransactionWifi::whereDate('date_transaction', $aujourdhui);
@@ -85,6 +95,7 @@ class DashboardController extends Controller
             'caSecretariat',
             'caLibrairie',
             'caBoissons',
+            'caServices',
             'caUnitesJour',
             'beneficeUnitesJour',
             'nombreUnitesJour',
