@@ -351,72 +351,87 @@
         </form>
 
         <!-- Modal Client et Confirmation -->
-        <div class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4" id="modalClient" @click.self="fermerModalClient()">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full flex flex-col max-h-[80vh]" style="max-height: calc(100vh - 40px);">
-                {{-- En-tête collant --}}
-                <div class="bg-indigo-600 text-white px-6 py-4 rounded-t-lg flex-shrink-0">
-                    <h3 class="font-semibold text-lg">Récapitulatif de la vente</h3>
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="modalClient" @click.self="fermerModalClient()">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-[0_24px_60px_rgba(15,23,42,0.28)] max-w-lg w-full flex flex-col overflow-hidden border border-slate-200 dark:border-slate-700" style="max-height: calc(100vh - 40px);">
+                <div class="bg-gradient-to-r from-indigo-600 via-violet-600 to-sky-600 text-white px-6 py-4 flex-shrink-0">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.2em] text-indigo-100">Validation</p>
+                            <h3 class="font-semibold text-lg mt-1">Récapitulatif de la vente</h3>
+                        </div>
+                        <button type="button" @click="fermerModalClient()" class="text-white/80 hover:text-white text-xl leading-none">×</button>
+                    </div>
                 </div>
 
-                {{-- Contenu scrollable avec hauteur contrôlée --}}
-                <div class="flex-1 overflow-y-auto p-5 space-y-3" style="min-height: 0; max-height: 50vh;">
-                    <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 space-y-2">
-                        <p class="text-xs font-semibold text-gray-700 dark:text-gray-300">Infos client (optionnel)</p>
+                <div class="flex-1 overflow-y-auto p-5 space-y-4" style="min-height: 0; max-height: 62vh;">
+                    <div class="rounded-xl border border-blue-100 bg-blue-50/80 dark:border-blue-900/60 dark:bg-blue-950/20 p-4 space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-white text-xs font-bold">i</span>
+                            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 dark:text-slate-300">Infos client (optionnel)</p>
+                        </div>
 
                         <div>
-                            <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-0.5">Nom</label>
+                            <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1.5">Nom</label>
                             <input type="text" x-model="clientNom" placeholder="Dupont"
-                                   class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 text-xs p-2">
+                                   class="w-full rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 dark:text-slate-100 text-sm p-2.5 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-900 outline-none">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-0.5">Prénom</label>
+                            <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1.5">Prénom</label>
                             <input type="text" x-model="clientPrenom" placeholder="Jean"
-                                   class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 text-xs p-2">
+                                   class="w-full rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 dark:text-slate-100 text-sm p-2.5 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-900 outline-none">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-0.5">Téléphone</label>
+                            <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1.5">Téléphone</label>
                             <input type="tel" x-model="clientTelephone" placeholder="+226 76 00 00 00"
-                                   class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 text-xs p-2">
+                                   class="w-full rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 dark:text-slate-100 text-sm p-2.5 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-900 outline-none">
                         </div>
                     </div>
 
-                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
-                        <p class="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-2">Détail de la vente</p>
-                        <div class="max-h-20 overflow-y-auto"
+                    <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/40 p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 dark:text-slate-300">Détail de la vente</p>
+                            <span class="text-[10px] text-slate-500 dark:text-slate-400" x-text="panier.length"></span>
+                        </div>
+
+                        <div class="max-h-36 overflow-y-auto space-y-2 pr-1">
                             <template x-for="(ligne, index) in panier" :key="index">
-                                <div class="flex justify-between text-xs text-gray-700 dark:text-gray-300 pb-1 border-b border-gray-200 dark:border-gray-600 last:border-0">
-                                    <div>
-                                        <span x-text="ligne.nom"></span>
-                                        <template x-if="ligne.type">
-                                            <span> (<span x-text="ligne.type"></span>)</span>
-                                        </template>
-                                        <span class="ml-1 text-gray-500 dark:text-gray-400">x<span x-text="ligne.quantite"></span></span>
+                                <div class="flex justify-between gap-3 text-sm text-slate-700 dark:text-slate-200 py-2 border-b border-slate-200 dark:border-slate-600 last:border-0 last:pb-0">
+                                    <div class="min-w-0">
+                                        <p class="font-medium truncate" x-text="ligne.nom"></p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                                            <template x-if="ligne.type">
+                                                <span x-text="ligne.type"></span>
+                                            </template>
+                                            <span class="ml-1">× <span x-text="ligne.quantite"></span></span>
+                                        </p>
                                     </div>
-                                    <span class="font-medium" x-text="(ligne.prix * ligne.quantite).toLocaleString('fr-FR') + ' F'"></span>
+                                    <span class="font-semibold whitespace-nowrap" x-text="(ligne.prix * ligne.quantite).toLocaleString('fr-FR') + ' F'"></span>
                                 </div>
                             </template>
                         </div>
                     </div>
 
-                    <div class="bg-gradient-to-r from-indigo-600 to-indigo-500 text-white rounded-lg p-3">
-                        <div class="flex justify-between items-center">
-                            <span class="font-semibold text-sm">TOTAL À PAYER</span>
-                            <span class="font-bold text-lg" x-text="total.toLocaleString('fr-FR') + ' F'"></span>
+                    <div class="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white p-4 shadow-lg shadow-indigo-500/20">
+                        <div class="flex items-center justify-between gap-3">
+                            <div>
+                                <p class="text-[10px] uppercase tracking-[0.2em] text-indigo-100">Montant total</p>
+                                <p class="text-sm text-indigo-100 mt-1">à payer</p>
+                            </div>
+                            <span class="font-bold text-2xl" x-text="total.toLocaleString('fr-FR') + ' F'"></span>
                         </div>
                     </div>
                 </div>
 
-                {{-- Boutons d'action collants en bas - TOUJOURS VISIBLES --}}
-                <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 p-3 bg-gray-50 dark:bg-gray-900/50 flex gap-2">
+                <div class="flex-shrink-0 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/60 p-3 flex gap-2">
                     <button type="button" @click="fermerModalClient()"
-                            class="flex-1 px-3 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold text-sm rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition whitespace-nowrap">
+                            class="flex-1 px-4 py-2.5 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 font-semibold text-sm rounded-xl hover:bg-slate-300 dark:hover:bg-slate-600 transition whitespace-nowrap">
                         Annuler
                     </button>
                     <button type="button" @click="validerVente()"
-                            class="flex-1 px-3 py-2 bg-emerald-600 text-white font-semibold text-sm rounded-md hover:bg-emerald-700 transition shadow-md whitespace-nowrap">
-                        ✓ Confirmer
+                            class="flex-1 px-4 py-2.5 bg-emerald-600 text-white font-semibold text-sm rounded-xl hover:bg-emerald-700 transition shadow-lg shadow-emerald-600/20 whitespace-nowrap">
+                        ✓ Confirmer la vente
                     </button>
                 </div>
             </div>

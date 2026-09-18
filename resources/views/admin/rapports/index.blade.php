@@ -317,7 +317,10 @@
                                     <td class="px-6 py-4 capitalize text-slate-700 dark:text-slate-200 font-medium">{{ $vente->module }}</td>
                                     <td class="px-6 py-4 text-slate-700 dark:text-slate-200">{{ $vente->caissiere->name ?? '—' }}</td>
                                     <td class="px-6 py-4 text-slate-500 dark:text-slate-400 text-xs">
-                                        {{ $vente->lignes->map(fn($l) => ($l->produit->nom ?? '?') . ' x' . $l->quantite)->join(', ') }}
+                                        {{ $vente->lignes->map(function ($l) {
+                                            $nom = $l->produit->nom ?? ($l->typeService->nom ?? $l->description_libre ?? '?');
+                                            return $nom . ' x' . $l->quantite;
+                                        })->join(', ') }}
                                     </td>
                                     <td class="px-6 py-4 text-right font-bold text-slate-800 dark:text-white">{{ number_format($vente->montant_total, 0, ',', ' ') }} F</td>
                                 </tr>
