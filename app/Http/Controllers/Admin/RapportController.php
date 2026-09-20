@@ -18,7 +18,7 @@ class RapportController extends Controller
             'date_debut' => ['nullable', 'date'],
             'date_fin' => ['nullable', 'date', 'after_or_equal:date_debut'],
             'recherche' => ['nullable', 'string', 'max:100'],
-            'module' => ['nullable', 'in:secretariat,librairie,boissons,services,unites_wifi'],
+            'module' => ['nullable', 'in:secretariat,librairie,boissons,services,mixte,unites_wifi'],
             'caissiere_id' => ['nullable', 'integer', 'exists:users,id'],
         ]);
 
@@ -30,7 +30,7 @@ class RapportController extends Controller
 
         $facturesQuery = Vente::query()
             ->where('statut', 'validee')
-            ->whereIn('module', ['secretariat', 'librairie', 'boissons', 'services'])
+            ->whereIn('module', ['secretariat', 'librairie', 'boissons', 'services', 'mixte'])
             ->whereDate('date_vente', '>=', $dateDebut)
             ->whereDate('date_vente', '<=', $dateFin);
 

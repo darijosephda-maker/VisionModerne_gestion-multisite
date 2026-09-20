@@ -57,6 +57,7 @@
                             <option value="librairie" @selected($module === 'librairie')>Librairie</option>
                             <option value="boissons" @selected($module === 'boissons')>Boissons</option>
                             <option value="services" @selected($module === 'services')>Services</option>
+                            <option value="mixte" @selected($module === 'mixte')>Ventes mixtes</option>
                             <option value="unites_wifi" @selected($module === 'unites_wifi')>Unités & WiFi</option>
                         </select>
                     </div>

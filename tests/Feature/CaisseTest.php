@@ -128,3 +128,28 @@ it('enregistre une facture avec un produit et un service de modules differents',
         ->and((string) $vente->montant_total)->toBe('450.00')
         ->and($produit->fresh()->quantite_stock)->toBe(4);
 });
+
+it('affiche les factures mixtes dans la liste admin', function () {
+    $admin = User::factory()->create([
+        'role' => 'admin',
+    ]);
+
+    $vente = Vente::create([
+        'caissiere_id' => $admin->id,
+        'module' => 'mixte',
+        'montant_total' => 350,
+        'statut' => 'validee',
+        'date_vente' => now(),
+    ]);
+
+    $this->actingAs($admin)
+        ->get(route('admin.factures.index'))
+        ->assertOk()
+        ->assertSee('#' . str_pad($vente->id, 6, '0', STR_PAD_LEFT))
+        ->assertSee('mixte');
+
+    $this->actingAs($admin)
+        ->get(route('admin.factures.index', ['module' => 'mixte']))
+        ->assertOk()
+        ->assertSee('#' . str_pad($vente->id, 6, '0', STR_PAD_LEFT));
+});
