@@ -456,10 +456,20 @@
                     const panierStocke = localStorage.getItem(this.clePanier);
                     if (panierStocke) {
                         try {
-                            this.panier = JSON.parse(panierStocke);
+                            const panier = JSON.parse(panierStocke);
+                            this.panier = Array.isArray(panier)
+                                ? panier
+                                    .map(ligne => ({
+                                        ...ligne,
+                                        module: ligne.module || (!ligne.produit_id ? 'services' : (this.module !== 'services' ? this.module : null)),
+                                    }))
+                                    .filter(ligne => ['secretariat', 'librairie', 'boissons', 'services'].includes(ligne.module))
+                                : [];
+                            this.sauvegarderPanierDanStorage();
                         } catch (e) {
                             console.error('Erreur de chargement du panier:', e);
                             this.panier = [];
+                            localStorage.removeItem(this.clePanier);
                         }
                     }
                 },
@@ -529,6 +539,11 @@
 
                     if (!form) {
                         console.error('Formulaire de caisse non trouvé');
+                        return;
+                    }
+
+                    if (this.panier.some(ligne => !['secretariat', 'librairie', 'boissons', 'services'].includes(ligne.module))) {
+                        window.alert('Une ligne de vente est invalide. Retirez-la puis ajoutez-la de nouveau.');
                         return;
                     }
 
@@ -616,6 +631,7 @@
                     inputTelephone.value = this.clientTelephone;
                     form.appendChild(inputTelephone);
 
+                    localStorage.removeItem(this.clePanier);
                     form.submit();
                 },
 
