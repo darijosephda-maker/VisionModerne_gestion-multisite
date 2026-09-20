@@ -149,7 +149,8 @@
                             <template x-for="(ligne, index) in panier" :key="index">
                                 <div class="flex items-center justify-between text-sm border-b border-gray-100 dark:border-gray-700 pb-2">
                                     <div class="flex-1">
-                                        <p class="text-gray-800 dark:text-gray-200" x-text="ligne.nom"></p>
+                                        <p class="text-gray-800 dark:text-gray-200" x-text="ligne.nom + ' (' + (ligne.produit_id ? (ligne.type || 'produit') : 'service') + ')' "></p>
+                                        <p class="text-xs text-indigo-600 dark:text-indigo-300 capitalize" x-text="ligne.module"></p>
                                         <div class="flex items-center gap-2 mt-1">
                                             <button type="button" @click="changerQuantite(index, -1)" class="w-6 h-6 rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">-</button>
                                             <span x-text="ligne.quantite" class="w-6 text-center"></span>
@@ -313,7 +314,8 @@
                         <template x-for="(ligne, index) in panier" :key="index">
                             <div class="flex items-center justify-between text-sm border-b border-gray-100 dark:border-gray-700 pb-2">
                                 <div class="flex-1">
-                                    <p class="text-gray-800 dark:text-gray-200" x-text="ligne.nom + ' (' + ligne.type + ')'"></p>
+                                    <p class="text-gray-800 dark:text-gray-200" x-text="ligne.nom + ' (' + (ligne.produit_id ? (ligne.type || 'produit') : 'service') + ')' "></p>
+                                    <p class="text-xs text-indigo-600 dark:text-indigo-300 capitalize" x-text="ligne.module"></p>
                                     <div class="flex items-center gap-2 mt-1">
                                         <button type="button" @click="changerQuantite(index, -1)" class="w-6 h-6 rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">-</button>
                                         <span x-text="ligne.quantite" class="w-6 text-center"></span>
@@ -462,6 +464,7 @@
                                     .map(ligne => ({
                                         ...ligne,
                                         module: ligne.module || (!ligne.produit_id ? 'services' : (this.module !== 'services' ? this.module : null)),
+                                        type: ligne.type || (ligne.produit_id ? 'produit' : 'service'),
                                     }))
                                     .filter(ligne => ['secretariat', 'librairie', 'boissons', 'services'].includes(ligne.module))
                                 : [];
