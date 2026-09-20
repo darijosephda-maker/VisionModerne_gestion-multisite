@@ -138,14 +138,15 @@
                     </div>
 
                     {{-- Panier --}}
-                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 h-fit lg:sticky lg:top-24 lg:max-h-[calc(100vh-10rem)] lg:overflow-y-auto">
+                    <div class="flex h-fit flex-col bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 lg:sticky lg:top-24 lg:h-[calc(100vh-10rem)] lg:max-h-[calc(100vh-10rem)] lg:overflow-hidden">
                         <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-4">🛒 Panier</h3>
 
-                        <template x-if="panier.length === 0">
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Le panier est vide.</p>
-                        </template>
+                        <div class="min-h-0 flex-1 overflow-y-auto pr-1">
+                            <template x-if="panier.length === 0">
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Le panier est vide.</p>
+                            </template>
 
-                        <div class="space-y-2 mb-4">
+                            <div class="space-y-2">
                             <template x-for="(ligne, index) in panier" :key="index">
                                 <div class="flex items-center justify-between text-sm border-b border-gray-100 dark:border-gray-700 pb-2">
                                     <div class="flex-1">
@@ -163,9 +164,10 @@
                                     </div>
                                 </div>
                             </template>
+                            </div>
                         </div>
 
-                        <div class="flex justify-between items-center font-bold text-gray-800 dark:text-gray-200 border-t border-gray-200 dark:border-gray-700 pt-3 mb-4">
+                        <div class="flex shrink-0 justify-between items-center font-bold text-gray-800 dark:text-gray-200 border-t border-gray-200 dark:border-gray-700 pt-3 mt-3 mb-4">
                             <span>Total</span>
                             <span x-text="total.toLocaleString('fr-FR') + ' F'"></span>
                         </div>
@@ -174,7 +176,7 @@
                                 @click="ouvrirModalClient()"
                                 :disabled="panier.length === 0"
                                 :class="panier.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-indigo-700'"
-                                class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-md transition">
+                                class="w-full shrink-0 bg-indigo-600 text-white font-semibold py-2 rounded-md transition">
                             Continuer vers le paiement
                         </button>
                     </div>
@@ -303,14 +305,15 @@
                 </div>
 
                 {{-- Panier --}}
-                <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 h-fit lg:sticky lg:top-24 lg:max-h-[calc(100vh-10rem)] lg:overflow-y-auto">
+                <div class="flex h-fit flex-col bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 lg:sticky lg:top-24 lg:h-[calc(100vh-10rem)] lg:max-h-[calc(100vh-10rem)] lg:overflow-hidden">
                     <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-4">🛒 Panier</h3>
 
-                    <template x-if="panier.length === 0">
-                        <p class="text-sm text-gray-500 dark:text-gray-400">Le panier est vide.</p>
-                    </template>
+                    <div class="min-h-0 flex-1 overflow-y-auto pr-1">
+                        <template x-if="panier.length === 0">
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Le panier est vide.</p>
+                        </template>
 
-                    <div class="space-y-2 mb-4">
+                        <div class="space-y-2">
                         <template x-for="(ligne, index) in panier" :key="index">
                             <div class="flex items-center justify-between text-sm border-b border-gray-100 dark:border-gray-700 pb-2">
                                 <div class="flex-1">
@@ -328,9 +331,10 @@
                                 </div>
                             </div>
                         </template>
+                        </div>
                     </div>
 
-                    <div class="flex justify-between items-center font-bold text-gray-800 dark:text-gray-200 border-t border-gray-200 dark:border-gray-700 pt-3 mb-4">
+                    <div class="flex shrink-0 justify-between items-center font-bold text-gray-800 dark:text-gray-200 border-t border-gray-200 dark:border-gray-700 pt-3 mt-3 mb-4">
                         <span>Total</span>
                         <span x-text="total.toLocaleString('fr-FR') + ' F'"></span>
                     </div>
@@ -339,7 +343,7 @@
                             @click="ouvrirModalClient()"
                             :disabled="panier.length === 0"
                             :class="panier.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-indigo-700'"
-                            class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-md transition">
+                            class="w-full shrink-0 bg-indigo-600 text-white font-semibold py-2 rounded-md transition">
                         Continuer vers le paiement
                     </button>
                 </div>
