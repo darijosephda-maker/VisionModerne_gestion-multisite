@@ -138,7 +138,7 @@
                     </div>
 
                     {{-- Panier --}}
-                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 h-fit sticky top-24">
+                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 h-fit lg:sticky lg:top-24 lg:max-h-[calc(100vh-10rem)] lg:overflow-y-auto">
                         <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-4">🛒 Panier</h3>
 
                         <template x-if="panier.length === 0">
@@ -303,7 +303,7 @@
                 </div>
 
                 {{-- Panier --}}
-                <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 h-fit sticky top-24">
+                <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 h-fit lg:sticky lg:top-24 lg:max-h-[calc(100vh-10rem)] lg:overflow-y-auto">
                     <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-4">🛒 Panier</h3>
 
                     <template x-if="panier.length === 0">
