@@ -138,7 +138,7 @@
                     </div>
 
                     {{-- Panier --}}
-                    <div class="flex h-fit flex-col bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 lg:sticky lg:top-24 lg:h-[calc(100vh-10rem)] lg:max-h-[calc(100vh-10rem)] lg:overflow-hidden">
+                    <div class="flex h-fit flex-col bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 lg:sticky lg:top-24 lg:h-[calc(100vh-14rem)] lg:max-h-[calc(100vh-14rem)] lg:overflow-hidden">
                         <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-4">🛒 Panier</h3>
 
                         <div class="min-h-0 flex-1 overflow-y-auto pr-1">
@@ -305,7 +305,7 @@
                 </div>
 
                 {{-- Panier --}}
-                <div class="flex h-fit flex-col bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 lg:sticky lg:top-24 lg:h-[calc(100vh-10rem)] lg:max-h-[calc(100vh-10rem)] lg:overflow-hidden">
+                <div class="flex h-fit flex-col bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 lg:sticky lg:top-24 lg:h-[calc(100vh-14rem)] lg:max-h-[calc(100vh-14rem)] lg:overflow-hidden">
                     <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-4">🛒 Panier</h3>
 
                     <div class="min-h-0 flex-1 overflow-y-auto pr-1">
