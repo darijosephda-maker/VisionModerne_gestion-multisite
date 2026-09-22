@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AuditLog;
+use App\Models\Produit;
+use App\Models\ProduitUnite;
 use App\Models\TransactionUnite;
 use App\Models\TransactionWifi;
 use App\Models\User;
@@ -12,6 +15,55 @@ use Illuminate\Support\Facades\DB;
 
 class RapportController extends Controller
 {
+    public function supprimerFacture(Vente $vente)
+    {
+        DB::transaction(function () use ($vente) {
+            $vente = Vente::query()
+                ->with('lignes')
+                ->lockForUpdate()
+                ->findOrFail($vente->id);
+
+            if ($vente->statut !== 'validee') {
+                abort(409, 'Cette facture n’est plus une vente validee.');
+            }
+
+            foreach ($vente->lignes as $ligne) {
+                if (! $ligne->produit_id) {
+                    continue;
+                }
+
+                $produit = Produit::lockForUpdate()->find($ligne->produit_id);
+
+                if (! $produit || $produit->type === 'service') {
+                    continue;
+                }
+
+                $unite = $ligne->produit_unite_id
+                    ? ProduitUnite::find($ligne->produit_unite_id)
+                    : null;
+                $equivalentDetail = $unite?->quantite_equivalente_detail ?? 1;
+
+                $produit->increment(
+                    'quantite_stock',
+                    $ligne->quantite * $equivalentDetail
+                );
+            }
+
+            AuditLog::create([
+                'user_id' => auth()->id(),
+                'action' => 'suppression',
+                'cible_type' => Vente::class,
+                'cible_id' => $vente->id,
+                'details' => "Facture #{$vente->id} supprimee par un administrateur. Montant : {$vente->montant_total} F.",
+            ]);
+
+            $vente->delete();
+        });
+
+        return redirect()->route('admin.factures.index')
+            ->with('success', 'La facture a ete supprimee et les stocks ont ete restaures.');
+    }
+
     public function factures(Request $request)
     {
         $validated = $request->validate([
@@ -83,7 +135,7 @@ class RapportController extends Controller
         $caissiereId = $request->get('caissiere_id', '');
 
         $ventesQuery = Vente::where('statut', 'validee')
-            ->whereIn('module', ['secretariat', 'librairie', 'boissons', 'services'])
+            ->whereIn('module', ['secretariat', 'librairie', 'boissons', 'services', 'mixte'])
             ->whereDate('date_vente', '>=', $dateDebut)
             ->whereDate('date_vente', '<=', $dateFin);
 

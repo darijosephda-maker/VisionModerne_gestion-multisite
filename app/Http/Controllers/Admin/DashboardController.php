@@ -16,14 +16,16 @@ class DashboardController extends Controller
     public function index()
     {
         $aujourdhui = now()->toDateString();
-        $modulesProduits = ['secretariat', 'librairie', 'boissons', 'services'];
+        $modulesProduits = ['secretariat', 'librairie', 'boissons', 'services', 'mixte'];
 
         // Chiffre d'affaires du jour par module
-        $caParModule = Vente::where('statut', 'validee')
-            ->whereIn('module', $modulesProduits)
-            ->whereDate('date_vente', $aujourdhui)
+        $caParModule = VenteLigne::whereIn('module', ['secretariat', 'librairie', 'boissons'])
+            ->whereHas('vente', function ($query) use ($aujourdhui) {
+                $query->where('statut', 'validee')
+                    ->whereDate('date_vente', $aujourdhui);
+            })
             ->groupBy('module')
-            ->select('module', DB::raw('SUM(montant_total) as total'))
+            ->select('module', DB::raw('SUM(sous_total) as total'))
             ->pluck('total', 'module');
 
         $caSecretariat = (float) ($caParModule['secretariat'] ?? 0);

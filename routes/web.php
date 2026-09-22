@@ -73,6 +73,9 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('admin/factures', [\App\Http\Controllers\Admin\RapportController::class, 'factures'])
         ->name('admin.factures.index');
 
+    Route::delete('admin/factures/{vente}', [\App\Http\Controllers\Admin\RapportController::class, 'supprimerFacture'])
+        ->name('admin.factures.destroy');
+
     Route::get('admin/site-contenu', [\App\Http\Controllers\Admin\SiteContenuController::class, 'index'])
         ->name('admin.site-contenu.index');
 

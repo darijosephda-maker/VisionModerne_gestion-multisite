@@ -4,6 +4,7 @@ use App\Models\Produit;
 use App\Models\ProduitUnite;
 use App\Models\User;
 use App\Models\Vente;
+use App\Models\AuditLog;
 
 it('enregistre une vente avec infos client et redirige vers la facture', function () {
     $user = User::factory()->create([
@@ -152,4 +153,130 @@ it('affiche les factures mixtes dans la liste admin', function () {
         ->get(route('admin.factures.index', ['module' => 'mixte']))
         ->assertOk()
         ->assertSee('#' . str_pad($vente->id, 6, '0', STR_PAD_LEFT));
+});
+
+it('attribue les lignes produit mixtes au bon module dans le dashboard admin', function () {
+    $admin = User::factory()->create([
+        'role' => 'admin',
+    ]);
+
+    $vente = Vente::create([
+        'caissiere_id' => $admin->id,
+        'module' => 'mixte',
+        'montant_total' => 450,
+        'statut' => 'validee',
+        'date_vente' => now(),
+    ]);
+
+    $vente->lignes()->createMany([
+        [
+            'module' => 'librairie',
+            'quantite' => 1,
+            'prix_unitaire' => 250,
+            'sous_total' => 250,
+        ],
+        [
+            'module' => 'services',
+            'description_libre' => 'Photocopie',
+            'quantite' => 2,
+            'prix_unitaire' => 100,
+            'sous_total' => 200,
+        ],
+    ]);
+
+    $this->actingAs($admin)
+        ->get(route('admin.dashboard'))
+        ->assertOk()
+        ->assertSee('250 F');
+});
+
+it('repartit tous les modules dans les cartes du dashboard admin', function () {
+    $admin = User::factory()->create([
+        'role' => 'admin',
+    ]);
+
+    $vente = Vente::create([
+        'caissiere_id' => $admin->id,
+        'module' => 'mixte',
+        'montant_total' => 1075,
+        'statut' => 'validee',
+        'date_vente' => now(),
+    ]);
+
+    $vente->lignes()->createMany([
+        [
+            'module' => 'secretariat',
+            'quantite' => 1,
+            'prix_unitaire' => 300,
+            'sous_total' => 300,
+        ],
+        [
+            'module' => 'librairie',
+            'quantite' => 1,
+            'prix_unitaire' => 450,
+            'sous_total' => 450,
+        ],
+        [
+            'module' => 'boissons',
+            'quantite' => 1,
+            'prix_unitaire' => 125,
+            'sous_total' => 125,
+        ],
+        [
+            'module' => 'services',
+            'description_libre' => 'Photocopie',
+            'quantite' => 1,
+            'prix_unitaire' => 200,
+            'sous_total' => 200,
+        ],
+    ]);
+
+    $this->actingAs($admin)
+        ->get(route('admin.dashboard'))
+        ->assertOk()
+        ->assertSee('300 F')
+        ->assertSee('450 F')
+        ->assertSee('125 F')
+        ->assertSee('200 F');
+});
+
+it('permet a un admin de supprimer une facture et de restaurer le stock', function () {
+    $admin = User::factory()->create([
+        'role' => 'admin',
+    ]);
+
+    $produit = Produit::factory()->create([
+        'quantite_stock' => 7,
+    ]);
+
+    $unite = ProduitUnite::factory()->create([
+        'produit_id' => $produit->id,
+        'quantite_equivalente_detail' => 2,
+    ]);
+
+    $produit->decrement('quantite_stock', 6);
+
+    $vente = Vente::create([
+        'caissiere_id' => $admin->id,
+        'module' => 'librairie',
+        'montant_total' => 750,
+        'statut' => 'validee',
+        'date_vente' => now(),
+    ]);
+    $vente->lignes()->create([
+        'module' => 'librairie',
+        'produit_id' => $produit->id,
+        'produit_unite_id' => $unite->id,
+        'quantite' => 3,
+        'prix_unitaire' => 250,
+        'sous_total' => 750,
+    ]);
+
+    $this->actingAs($admin)
+        ->delete(route('admin.factures.destroy', $vente))
+        ->assertRedirect(route('admin.factures.index'));
+
+    expect(Vente::find($vente->id))->toBeNull()
+        ->and($produit->fresh()->quantite_stock)->toBe(7)
+        ->and(AuditLog::where('cible_type', Vente::class)->where('cible_id', $vente->id)->exists())->toBeTrue();
 });
