@@ -121,17 +121,16 @@
                                     <td class="px-6 py-4 text-slate-700 dark:text-slate-200">{{ $facture->caissiere->name ?? 'Compte supprimé' }}</td>
                                     <td class="px-6 py-4"><span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold capitalize text-slate-600 dark:bg-slate-800 dark:text-slate-300">{{ str_replace('_', ' ', $facture->module) }}</span></td>
                                     <td class="px-6 py-4 text-right font-bold text-slate-900 dark:text-white">{{ number_format($facture->montant_total, 0, ',', ' ') }} F</td>
-                                    <td class="px-6 py-4 text-right"><a href="{{ route('caisse.facture', $facture) }}" target="_blank" class="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-bold text-indigo-600 transition hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-500/10" title="Ouvrir la facture imprimable"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z" /></svg>Voir</a></td>
-                                        <td class="px-6 py-4 text-right">
-                                            <div class="flex flex-wrap justify-end gap-2">
-                                                <a href="{{ route('caisse.facture', $facture) }}" target="_blank" class="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-bold text-indigo-600 transition hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-500/10" title="Ouvrir la facture imprimable"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9V2h12v7M6 18H4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h2M6 14h12v8H6z" /></svg>Voir</a>
-                                                <form method="POST" action="{{ route('admin.factures.destroy', $facture) }}" onsubmit="return confirm('Supprimer cette facture et restaurer les stocks associes ? Cette action est definitive.');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-bold text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10" title="Supprimer la facture"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6h18m-2 0v14H5V6m3 0V3h8v3m-5 4v7m4-7v7" /></svg>Supprimer</button>
-                                                </form>
-                                            </div>
-                                        </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex flex-wrap justify-end gap-2">
+                                            <a href="{{ route('caisse.facture', $facture) }}" target="_blank" class="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-bold text-indigo-600 transition hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-500/10" title="Ouvrir la facture imprimable"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9V2h12v7M6 18H4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h2M6 14h12v8H6z" /></svg>Voir</a>
+                                            <form method="POST" action="{{ route('admin.factures.destroy', $facture) }}" onsubmit="return confirm('Supprimer cette facture et restaurer les stocks associes ? Cette action est definitive.');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-bold text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10" title="Supprimer la facture"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6h18m-2 0v14H5V6m3 0V3h8v3m-5 4v7m4-7v7" /></svg>Supprimer</button>
+                                            </form>
+                                        </div>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr><td colspan="7" class="px-6 py-16 text-center"><div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-xl dark:bg-slate-800">🧾</div><p class="mt-4 font-semibold text-slate-700 dark:text-slate-200">Aucune facture trouvée</p><p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Essayez d’élargir la période ou de modifier vos critères.</p></td></tr>
